@@ -2,6 +2,11 @@
     "name": "design.jabarac.baseproject",
     "displayName": "JABARAC Base Project",
     "description": "JABARACで使用する、Unityプロジェクトの基盤",
-    "version": "0.1.0",
-    "unity": "2022.3"
+    "version": "0.1.1",
+    "unity": "2022.3",
+    "dependencies": {
+        "com.unity.addressables": "1.21.21",
+        "com.cysharp.unitask": "2.5.0",
+        "jp.hadashikick.vcontainer": "1.16.6"
+    }
 }
