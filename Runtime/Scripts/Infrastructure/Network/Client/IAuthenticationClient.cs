@@ -17,9 +17,17 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client
         /// <param name="email">メールアドレス</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>レスポンス</returns>
-        public UniTask<IAPIResponse<EmailExistsResponse>> GetIsEmailExistsAsync(
+        UniTask<IAPIResponse<EmailExistsResponse>> GetIsEmailExistsAsync(
             string email,
             CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 匿名でユーザー登録を行う。
+        /// </summary>
+        /// <param name="cancellationToken">キャンセルトークン</param>
+        /// <returns>レスポンス</returns>
+        UniTask<IAPIResponse<CreateAnonymousUserResponseDto>>
+            CreateAnonymousUserAsync(CancellationToken cancellationToken = default);
         
         /// <summary>
         /// ユーザー登録を行う
@@ -29,7 +37,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client
         /// <param name="displayName">表示名</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>レスポンス</returns>
-        public UniTask<IAPIResponse<CreateUserWithEmailAndPasswordResponseDto>> CreateUserWithEmailAndPasswordAsync(
+        UniTask<IAPIResponse<CreateUserWithEmailAndPasswordResponseDto>> CreateUserWithEmailAndPasswordAsync(
             string email,
             string password,
             string displayName,
@@ -39,7 +47,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client
         /// ログイン状態かどうかを判定する
         /// </summary>
         /// <returns>ログイン状態の場合はtrue、それ以外の場合はfalse</returns>
-        public IAPIResponse<GetIsLoggedInDto> GetIsLoggedIn();
+        IAPIResponse<GetIsLoggedInDto> GetIsLoggedIn();
         
         /// <summary>
         /// メールアドレスとパスワードでログインする
@@ -48,7 +56,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client
         /// <param name="password">パスワード</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>レスポンス</returns>
-        public UniTask<IAPIResponse<LogInWithEmailAndPasswordResponseDto>> SignInWithEmailAndPasswordAsync(
+        UniTask<IAPIResponse<LogInWithEmailAndPasswordResponseDto>> SignInWithEmailAndPasswordAsync(
             string email,
             string password,
             CancellationToken cancellationToken = default);

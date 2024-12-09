@@ -18,6 +18,14 @@ namespace JABARACdesign.Base.Application.Interface
         UniTask<IAPIResponse<EmailExistsResponse>> GetIsEmailExistsAsync(
             string email,
             CancellationToken cancellationToken);
+
+        /// <summary>
+        /// 匿名でユーザー登録を行う。
+        /// </summary>
+        /// <param name="cancellationToken">キャンセルトークン</param>
+        /// <returns>レスポンス</returns>
+        UniTask<IAPIResponse<CreateAnonymousUserResponse>> CreateAnonymousUserAsync(
+            CancellationToken cancellationToken = default);
         
         /// <summary>
         /// ユーザー登録を行う。
@@ -27,7 +35,7 @@ namespace JABARACdesign.Base.Application.Interface
         /// <param name="displayName">表示名</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>レスポンス</returns>
-        public UniTask<IAPIResponse<CreateUserWithEmailAndPasswordResponse>> CreateUserWithEmailAndPasswordAsync(
+        UniTask<IAPIResponse<CreateUserWithEmailAndPasswordResponse>> CreateUserWithEmailAndPasswordAsync(
             string email,
             string password,
             string displayName,
@@ -37,7 +45,7 @@ namespace JABARACdesign.Base.Application.Interface
         /// ログイン状態かどうかを判定する。
         /// </summary>
         /// <returns>レスポンス</returns>
-        public IAPIResponse<GetIsLoggedIn> GetIsLoggedIn();
+        IAPIResponse<GetIsLoggedIn> GetIsLoggedIn();
         
         /// <summary>
         /// メールアドレスとパスワードでログインする
@@ -46,7 +54,7 @@ namespace JABARACdesign.Base.Application.Interface
         /// <param name="password">パスワード</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>レスポンス</returns>
-        public UniTask<IAPIResponse<LogInWithEmailAndPasswordResponse>> LogInWithEmailAndPasswordAsync(
+        UniTask<IAPIResponse<LogInWithEmailAndPasswordResponse>> LogInWithEmailAndPasswordAsync(
             string email,
             string password,
             CancellationToken cancellationToken);
