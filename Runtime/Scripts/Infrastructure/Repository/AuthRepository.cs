@@ -42,6 +42,21 @@ namespace JABARACdesign.Base.Infrastructure.Repository
         }
         
         /// <summary>
+        /// 匿名でユーザー登録を行う。
+        /// </summary>
+        /// <param name="cancellationToken">キャンセルトークン</param>
+        /// <returns>レスポンス</returns>
+        public async UniTask<IAPIResponse<CreateAnonymousUserResponse>> CreateAnonymousUserAsync(
+            CancellationToken cancellationToken = default)
+        {
+            var response = await _authenticationClient.CreateAnonymousUserAsync(
+                cancellationToken: cancellationToken);
+            
+            return response
+                .ToEntityResponse<CreateAnonymousUserResponseDto, CreateAnonymousUserResponse>();
+        }
+        
+        /// <summary>
         /// ユーザー登録を行う
         /// </summary>
         /// <param name="email">メールアドレス</param>
