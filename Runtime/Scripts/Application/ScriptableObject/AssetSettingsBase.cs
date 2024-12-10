@@ -10,7 +10,7 @@ namespace JABARACdesign.Base.Application.ScriptableObject
     /// </summary>
     /// <typeparam name="TEnum">ラベルの型</typeparam>
     public interface IAssetSettings<in TEnum>
-        where TEnum : Enum, IUILabel
+        where TEnum : Enum
     {
         AssetReference GetAssetReference(TEnum label);
     }
@@ -20,7 +20,7 @@ namespace JABARACdesign.Base.Application.ScriptableObject
     /// </summary>
     /// <typeparam name="TEnum">ラベルの型</typeparam>
     public abstract class AssetSettingsBase<TEnum> : UnityEngine.ScriptableObject, IAssetSettings<TEnum>
-        where TEnum : Enum, IUILabel
+        where TEnum : Enum
     {
         [SerializeField]
         private List<AssetReferenceUnit<TEnum>> _assetReferenceUnits = new();
@@ -43,7 +43,7 @@ namespace JABARACdesign.Base.Application.ScriptableObject
             foreach (var assetReferenceUnit in _assetReferenceUnits)
             {
                 _assetReferenceDictionary.TryAdd(
-                    key: assetReferenceUnit.Key,
+                    key: assetReferenceUnit.Label.ToString(),
                     value: assetReferenceUnit.AssetReference);
             }
         }
@@ -55,7 +55,7 @@ namespace JABARACdesign.Base.Application.ScriptableObject
         /// <returns>アセットリファレンス</returns>
         public AssetReference GetAssetReference(TEnum label)
         {
-            var key = label.ToKey();
+            var key = label.ToString();
             if (_assetReferenceDictionary.TryGetValue(key: key, value: out var assetReference))
             {
                 return assetReference;

@@ -13,12 +13,12 @@ namespace JABARACdesign.Base.Application.ScriptableObject
         where TEnum : Enum
     {
         [SerializeField] 
-        private string _key;
+        private TEnum _label;
         
         [SerializeField] 
         private AssetReference _assetReference;
         
-        public string Key => _key;
+        public TEnum Label => _label;
         public AssetReference AssetReference => _assetReference;
     }
 }
