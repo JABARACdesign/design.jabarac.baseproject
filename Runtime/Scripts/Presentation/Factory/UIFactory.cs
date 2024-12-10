@@ -52,7 +52,7 @@ namespace JABARACdesign.Base.Presentation.Factory
             where TModel : class, IBaseUIModel
             where TView : class, IDIBaseUIView
             where TPresenter : IBaseUIPresenter
-            where TEnum : Enum, IUILabel
+            where TEnum : Enum
         {
             // アセット参照を作成する
             var assetReference = assetSettings.GetAssetReference(label: label);
@@ -96,7 +96,7 @@ namespace JABARACdesign.Base.Presentation.Factory
             BaseUIData data,
             CancellationToken cancellationToken)
             where TView : INonDIBaseUIView
-            where TEnum : Enum, IUILabel
+            where TEnum : Enum
         {
             var assetReference = assetSettings.GetAssetReference(label: label);
             
@@ -174,7 +174,7 @@ namespace JABARACdesign.Base.Presentation.Factory
             IAssetSettings<TEnum> assetSettings,
             List<TEnum> labels,
             CancellationToken cancellationToken)
-            where TEnum : Enum, IUILabel
+            where TEnum : Enum
         {
             foreach (var label in labels)
             {
