@@ -51,7 +51,7 @@ namespace JABARACdesign.Base.Presentation.Factory
             CancellationToken cancellationToken)
             where TModel : class, IBaseUIModel
             where TView : class, IDIBaseUIView
-            where TPresenter : IBaseUIPresenter
+            where TPresenter : IBaseUIPresenter<IBaseUIModel, IDIBaseUIView>
             where TEnum : Enum
         {
             // アセット参照を作成する
@@ -155,7 +155,7 @@ namespace JABARACdesign.Base.Presentation.Factory
             Transform parentTransform)
             where TModel : IBaseUIModel
             where TView : IDIBaseUIView
-            where TPresenter : IBaseUIPresenter
+            where TPresenter : IBaseUIPresenter<IBaseUIModel, IDIBaseUIView>
         {
             var scope = VContainerHelper.CreateLifetimeScope<TModel, TView, TPresenter>(
                 view: view,

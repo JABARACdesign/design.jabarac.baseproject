@@ -13,47 +13,57 @@ namespace JABARACdesign.Base.Presentation.UI
     /// <summary>
     /// UIプレゼンターのインターフェイス。
     /// </summary>
-    public interface IBaseUIPresenter : IDisposable
+    public interface IBaseUIPresenter<out TModel, out TView> : IDisposable
+        where TModel : IBaseUIModel
+        where TView : IDIBaseUIView
     {
-        public UniTask InitializeAsyncBase(
+        TModel Model { get; }
+        
+        TView View { get; }
+        
+        UniTask InitializeAsyncBase(
             BaseUIData data,
             CancellationToken cancellationToken);
         
-        public void AddDisposable(IDisposable disposable);
+        void AddDisposable(IDisposable disposable);
         
-        public UniTask<TData> HandleAPIResponseAsync<TData>(
+        UniTask<TData> HandleAPIResponseAsync<TData>(
             IAPIResponse<TData> response,
             CancellationToken cancellationToken)
             where TData : class;
         
-        public void DisposeUI();
+        void DisposeUI();
         
-        public CancellationToken CancellationToken { get; }
+        CancellationToken CancellationToken { get; }
         
-        public CompositeDisposable Disposables { get; }
+        CompositeDisposable Disposables { get; }
     }
     
     /// <summary>
     /// モデルとビューを持つUIプレゼンターの基底クラス。
     /// </summary>
-    public abstract class BaseUIPresenter<TModel, TView> : IBaseUIPresenter
+    public abstract class BaseUIPresenter<TModel, TView> : IBaseUIPresenter<TModel, TView>
         where TModel : IBaseUIModel
         where TView : IDIBaseUIView
     {
-        protected readonly TModel _model;
         
-        protected readonly TView _view;
+        public TModel Model => _model;
         
-        private CancellationTokenSource _cancellationTokenSource = new();
+        public TView View => _view;
         
         public CancellationToken CancellationToken => _cancellationTokenSource.Token;
+        
+        public CompositeDisposable Disposables => _disposables;
+        
+        private readonly TModel _model;
+        
+        private readonly TView _view;
+        
+        private CancellationTokenSource _cancellationTokenSource = new();
         
         private readonly CompositeDisposable _disposables = new();
         
         private BaseUIData _initData;
-        
-        public CompositeDisposable Disposables => _disposables;
-        
         protected IMstDataManager MstDataManager { get; }
         
         /// <summary>
@@ -73,10 +83,6 @@ namespace JABARACdesign.Base.Presentation.UI
             MstDataManager = mstDataManager;
         }
         
-        public TModel Model => _model;
-        
-        public TView View => _view;
-        
         /// <summary>
         /// 初期化処理。
         /// </summary>
@@ -85,8 +91,8 @@ namespace JABARACdesign.Base.Presentation.UI
         public async UniTask InitializeAsyncBase(BaseUIData data, CancellationToken cancellationToken)
         {
             _initData = data;
-            _model.InitializeModelBase(initData: _initData);
-            await _view.InitializeViewAsyncBase(initData: _initData, cancellationToken: cancellationToken);
+            Model.InitializeModelBase(initData: _initData);
+            await View.InitializeViewAsyncBase(initData: _initData, cancellationToken: cancellationToken);
             
             await InitializeAsync(cancellationToken: cancellationToken);
             
@@ -99,7 +105,7 @@ namespace JABARACdesign.Base.Presentation.UI
         /// </summary>
         public void DisposeUI()
         {
-            _view.DisposeUI();
+            View.DisposeUI();
         }
         
         public virtual void Dispose()
@@ -144,7 +150,7 @@ namespace JABARACdesign.Base.Presentation.UI
                 
                 case APIStatus.Code.Error:
                     var message = response.ErrorMessage;
-                    await _view.CreateErrorDialogAsync(message: message, cancellationToken: cancellationToken);
+                    await View.CreateErrorDialogAsync(message: message, cancellationToken: cancellationToken);
                     return null;
                 
                 case APIStatus.Code.Maintenance:

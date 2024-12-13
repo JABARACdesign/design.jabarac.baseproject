@@ -23,8 +23,8 @@ namespace JABARACdesign.Base.Presentation.Helper
             TView view,
             LifetimeScope parentLifetimeScope)
             where TModel : IBaseUIModel
-            where TView : IBaseUIView
-            where TPresenter : IBaseUIPresenter
+            where TView : IDIBaseUIView
+            where TPresenter : IBaseUIPresenter<IBaseUIModel, IDIBaseUIView>
         {
             var lifetimeScope = parentLifetimeScope.CreateChild(
                 (IContainerBuilder builder) =>

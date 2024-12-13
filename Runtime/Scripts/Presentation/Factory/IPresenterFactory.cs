@@ -19,7 +19,7 @@ namespace JABARACdesign.Base.Presentation.Factory
         /// <returns>Presenter</returns>
         TPresenter CreatePresenter<TModel, TView, TPresenter>(LifetimeScope scope)
             where TModel : IBaseUIModel
-            where TView : IBaseUIView
-            where TPresenter : IBaseUIPresenter;
+            where TView : IDIBaseUIView
+            where TPresenter : IBaseUIPresenter<IBaseUIModel,IDIBaseUIView>;
     }
 }
