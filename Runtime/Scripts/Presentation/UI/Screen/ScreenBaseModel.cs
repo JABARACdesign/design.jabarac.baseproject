@@ -1,7 +1,6 @@
 ﻿using JABARACdesign.Base.Application.Manager;
-using JABARACdesign.Base.Presentation.UI;
 
-namespace JabaracDesign.Voick.Presentation.UI.Screen
+namespace JABARACdesign.Base.Presentation.UI.Screen
 {
     public interface IScreenBaseModel : IBaseUIModel
     {

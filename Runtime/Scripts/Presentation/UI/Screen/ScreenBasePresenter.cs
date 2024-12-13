@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using JABARACdesign.Base.Application.Manager;
-using JABARACdesign.Base.Presentation.UI;
 
-namespace JabaracDesign.Voick.Presentation.UI.Screen
+namespace JABARACdesign.Base.Presentation.UI.Screen
 {
     /// <summary>
     /// スクリーンの基底プレゼンタークラスのインターフェース。

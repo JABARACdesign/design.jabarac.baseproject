@@ -2,10 +2,9 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using JABARACdesign.Base.Presentation.Extension;
-using JABARACdesign.Base.Presentation.UI;
 using UnityEngine;
 
-namespace JabaracDesign.Voick.Presentation.UI.Screen
+namespace JABARACdesign.Base.Presentation.UI.Screen
 {
     /// <summary>
     /// スクリーンの基底ビュークラスのインターフェース。

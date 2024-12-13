@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using JABARACdesign.Base.Application.Manager;
 using JABARACdesign.Base.Application.ScriptableObject;
 using JABARACdesign.Base.Domain.Entity.Helper;
-using JabaracDesign.Voick.Presentation.UI.Screen;
+using JABARACdesign.Base.Presentation.UI.Screen;
 using R3;
 using UnityEngine;
 
