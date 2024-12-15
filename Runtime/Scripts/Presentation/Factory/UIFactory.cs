@@ -17,7 +17,7 @@ namespace JABARACdesign.Base.Presentation.Factory
     /// <summary>
     /// UIの生成を行うファクトリクラス。
     /// </summary>
-    public abstract class UIFactory : IUIFactory
+    public class UIFactory : IUIFactory
     {
         #region Private Fields
         
