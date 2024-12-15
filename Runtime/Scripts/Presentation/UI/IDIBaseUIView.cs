@@ -10,8 +10,6 @@ namespace JABARACdesign.Base.Presentation.UI
     {
         IUIFactory UIFactory { get; }
         
-        IAssetFactory AssetFactory { get; }
-        
         void DisposeUI();
     }
 }

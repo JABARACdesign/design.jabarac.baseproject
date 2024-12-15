@@ -14,20 +14,15 @@ namespace JABARACdesign.Base.Presentation.UI
     {
         public IUIFactory UIFactory { get; private set; }
         
-        public IAssetFactory AssetFactory { get; private set; }
-        
         /// <summary>
         /// コンストラクタ(DI)。
         /// </summary>
         /// <param name="uiFactory">UIファクトリ</param>
-        /// <param name="assetFactory">アセットファクトリ</param>
         [Inject]
         public void Constructor(
-            IUIFactory uiFactory,
-            IAssetFactory assetFactory)
+            IUIFactory uiFactory)
         {
             UIFactory = uiFactory;
-            AssetFactory = assetFactory;
         }
         
         protected override void ApplyView()
