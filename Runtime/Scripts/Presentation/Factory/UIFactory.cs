@@ -9,6 +9,7 @@ using JABARACdesign.Base.Presentation.Helper;
 using JABARACdesign.Base.Presentation.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using VContainer;
 using VContainer.Unity;
 
 namespace JABARACdesign.Base.Presentation.Factory
@@ -16,11 +17,9 @@ namespace JABARACdesign.Base.Presentation.Factory
     /// <summary>
     /// UIの生成を行うファクトリクラス。
     /// </summary>
-    public class UIFactory : IUIFactory
+    public abstract class UIFactory : IUIFactory
     {
         #region Private Fields
-        
-        private LifetimeScope _appLifetimeScope;
         
         private readonly Dictionary<IBaseUIView, LifetimeScope> _scopeDictionary = new();
         
@@ -29,6 +28,20 @@ namespace JABARACdesign.Base.Presentation.Factory
         private IViewFactory _viewFactory;
         
         #endregion
+        
+        /// <summary>
+        /// コンストラクタ。MonoBehaviourのコンストラクタはInjectを用いて代用する。
+        /// </summary>
+        /// <param name="viewFactory">Viewのファクトリクラス。</param>
+        /// <param name="presenterFactory">Presenterのファクトリクラス。</param>
+        [Inject]
+        public void Constructor(
+            IViewFactory viewFactory,
+            IPresenterFactory presenterFactory)
+        {
+            _viewFactory = viewFactory;
+            _presenterFactory = presenterFactory;
+        }
 
         /// <summary>
         /// Model, View, Presenterで構成されたUIの生成を行う。
@@ -37,6 +50,7 @@ namespace JABARACdesign.Base.Presentation.Factory
         /// <typeparam name="TView">Viewの型</typeparam>
         /// <typeparam name="TPresenter">Presenterの型</typeparam>
         /// <typeparam name="TEnum">ラベルの型</typeparam>
+        /// <param name="parentLifetimeScope">親のライフタイムスコープ</param>
         /// <param name="parentTransform">生成先のトランスフォーム</param>
         /// <param name="assetSettings">アセット設定</param>
         /// <param name="label">UIのラベル</param>
@@ -44,6 +58,7 @@ namespace JABARACdesign.Base.Presentation.Factory
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>ViewとPresenterのタプル</returns>
         public async UniTask<(TView view, TPresenter presenter)> CreateUIAsync<TModel, TView, TPresenter, TEnum>(
+            LifetimeScope parentLifetimeScope,  
             Transform parentTransform,
             IAssetSettings<TEnum> assetSettings,
             TEnum label,
@@ -66,6 +81,7 @@ namespace JABARACdesign.Base.Presentation.Factory
             
             // LifetimeScopeを生成する
             var scope = CreateLifetimeScope<TModel, TView, TPresenter>(
+                parentLifetimeScope,
                 view: view,
                 parentTransform: parentTransform);
             var presenter = _presenterFactory.CreatePresenter<TModel, TView, TPresenter>(scope: scope);
@@ -140,17 +156,19 @@ namespace JABARACdesign.Base.Presentation.Factory
             
             return view;
         }
-        
+
         /// <summary>
         /// Model,View,PresenterのLifetimeScopeを動的に生成する。
         /// </summary>
         /// <typeparam name="TModel">Modelの型</typeparam>
         /// <typeparam name="TView">Viewの型</typeparam>
         /// <typeparam name="TPresenter">Presenterの型</typeparam>
+        /// <param name="parentLifetimeScope">親のライフタイムスコープ</param>
         /// <param name="view">生成したView</param>
         /// <param name="parentTransform">LifetimeScopeの生成先のトランスフォーム</param>
         /// <returns>LifetimeScope</returns>
         private LifetimeScope CreateLifetimeScope<TModel, TView, TPresenter>(
+            LifetimeScope parentLifetimeScope, 
             TView view,
             Transform parentTransform)
             where TModel : IBaseUIModel
@@ -159,7 +177,7 @@ namespace JABARACdesign.Base.Presentation.Factory
         {
             var scope = VContainerHelper.CreateLifetimeScope<TModel, TView, TPresenter>(
                 view: view,
-                parentLifetimeScope: _appLifetimeScope);
+                parentLifetimeScope: parentLifetimeScope);
             scope.transform.SetParent(p: parentTransform);
             return scope;
         }

@@ -8,6 +8,7 @@ using JABARACdesign.Base.Domain.Entity.Helper;
 using JABARACdesign.Base.Presentation.UI.Screen;
 using R3;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
 {
@@ -77,8 +78,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         /// <param name="cancellationToken">キャンセルトークン</param>
         protected abstract UniTask<(IScreenBaseView, IScreenBasePresenter<IScreenBaseModel, IScreenBaseView>)> CreateInitialScreenAsync(
             CancellationToken cancellationToken);
-        
-        
+
         /// <summary>
         /// スクリーンをプッシュする。
         /// </summary>
@@ -87,6 +87,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         /// <typeparam name="TScreenPresenter">スクリーンのプレゼンターの型</typeparam>
         /// <typeparam name="TScreenData">スクリーンのデータの型</typeparam>
         /// <typeparam name="TEnum">Enumの型</typeparam>
+        /// <param name="parentLifetimeScope">親のライフタイムスコープ</param>
         /// <param name="assetSettings">アセット設定</param>
         /// <param name="label">ラベル</param>
         /// <param name="data">初期化データ</param>
@@ -98,6 +99,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             TScreenPresenter,
             TScreenData,
             TEnum>(
+            LifetimeScope parentLifetimeScope,
             IAssetSettings<TEnum> assetSettings,
             TEnum label,
             TScreenData data,
@@ -115,6 +117,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
                     TScreenPresenter,
                     TScreenData,
                     TEnum>(
+                    parentLifetimeScope,
                     assetSettings,
                     label: label,
                     data: data,

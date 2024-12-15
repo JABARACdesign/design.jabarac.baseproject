@@ -8,6 +8,7 @@ using JABARACdesign.Base.Domain.Entity.Helper;
 using JABARACdesign.Base.Presentation.UI.Screen;
 using R3;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
 {
@@ -19,6 +20,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         /// <summary>
         /// スクリーンを生成する
         /// </summary>
+        /// <param name="parentLifetimeScope">親のライフタイムスコープ</param>
         /// <param name="assetSettings">アセット設定</param>
         /// <param name="label">UIラベル</param>
         /// <param name="data">初期化データ</param>
@@ -35,6 +37,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             TScreenPresenter,
             TScreenData,
             TEnum>(
+            LifetimeScope parentLifetimeScope,
             IAssetSettings<TEnum> assetSettings,
             TEnum label,
             TScreenData data,
@@ -151,6 +154,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         /// <summary>
         /// スクリーンを生成する
         /// </summary>
+        /// <param name="parentLifetimeScope">親のライフタイムスコープ</param>
         /// <param name="assetSettings">アセット設定</param>
         /// <param name="label">UIラベル</param>
         /// <param name="data">初期化データ</param>
@@ -167,6 +171,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             TScreenPresenter,
             TScreenData,
             TEnum>(
+            LifetimeScope parentLifetimeScope,
             IAssetSettings<TEnum> assetSettings,
             TEnum label,
             TScreenData data,
@@ -182,6 +187,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
                 TScreenView,
                 TScreenPresenter,
                 TEnum>(
+                parentLifetimeScope: parentLifetimeScope,
                 parentTransform: _screenContainerTransform,
                 assetSettings: assetSettings,
                 label: label,
@@ -200,7 +206,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             {
                 if (nextScreen == null)
                 {
-                    LogHelper.Error("新たに表示するスクリーンが存在しません。");
+                    LogHelper.Error(message: "新たに表示するスクリーンが存在しません。");
                 }
 
                 await nextScreen.PlaySlideAnimationAsync(
@@ -228,7 +234,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
                     screenWidth: screenWidth,
                     cancellationToken: cancellationToken);
 
-                await UniTask.WhenAll(currentScreenAnimationTask, nextScreenAnimationTask);
+                await UniTask.WhenAll(tasks: new[] { currentScreenAnimationTask, nextScreenAnimationTask });
             }
             else
             {
@@ -245,7 +251,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
                     screenWidth: screenWidth,
                     cancellationToken: cancellationToken);
 
-                await UniTask.WhenAll(previousScreenAnimationTask, currentScreenAnimationTask);
+                await UniTask.WhenAll(tasks: new[] { previousScreenAnimationTask, currentScreenAnimationTask });
             }
         }
         

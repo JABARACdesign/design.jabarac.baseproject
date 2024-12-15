@@ -7,6 +7,7 @@ using JABARACdesign.Base.Application.ScriptableObject;
 using JABARACdesign.Base.Application.UI;
 using JABARACdesign.Base.Presentation.UI;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace JABARACdesign.Base.Presentation.Factory
 {
@@ -22,6 +23,7 @@ namespace JABARACdesign.Base.Presentation.Factory
         /// <typeparam name="TView">Viewの型</typeparam>
         /// <typeparam name="TPresenter">Presenterの型</typeparam>
         /// <typeparam name="TEnum">ラベルの型</typeparam>
+        /// <param name="parentLifetimeScope">親のライフタイムスコープ</param>
         /// <param name="parentTransform">生成先のトランスフォーム</param>
         /// <param name="assetSettings">アセット設定</param>
         /// <param name="label">UIのラベル</param>
@@ -29,6 +31,7 @@ namespace JABARACdesign.Base.Presentation.Factory
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>ViewとPresenterのタプル</returns>
         UniTask<(TView view, TPresenter presenter)> CreateUIAsync<TModel, TView, TPresenter, TEnum>(
+            LifetimeScope parentLifetimeScope,
             Transform parentTransform,
             IAssetSettings<TEnum> assetSettings,
             TEnum label,
