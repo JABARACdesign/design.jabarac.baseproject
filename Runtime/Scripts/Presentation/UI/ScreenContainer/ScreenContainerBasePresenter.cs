@@ -39,19 +39,9 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         /// <param name="cancellationToken">キャンセルトークン</param>
         protected override async UniTask InitializeAsync(CancellationToken cancellationToken)
         {
-            SetUpViewEvent();
             await PushInitialScreenAsync(cancellationToken: cancellationToken);
         }
         
-        /// <summary>
-        /// ビューのイベントを設定。
-        /// </summary>
-        private void SetUpViewEvent()
-        {
-            View.OnScreenBackButtonClicked
-                .Subscribe(_ => PopScreenAsync(cancellationToken: CancellationToken).Forget())
-                .AddTo(Disposables);
-        }
         
         /// <summary>
         /// 初期ページを生成する。

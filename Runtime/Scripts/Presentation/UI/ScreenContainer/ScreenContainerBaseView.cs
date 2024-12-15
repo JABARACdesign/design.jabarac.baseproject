@@ -47,11 +47,6 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             where TScreenPresenter : IScreenBasePresenter<IScreenBaseModel, IScreenBaseView>
             where TScreenData : ScreenBaseData
             where TEnum : Enum;
-        
-        /// <summary>
-        /// スクリーンを戻る(閉じる)ボタンをクリックされた際の通知
-        /// </summary>
-        Observable<Unit> OnScreenBackButtonClicked { get; }
 
         /// <summary>
         /// トランジション処理を行う。
@@ -85,12 +80,6 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         
         [SerializeField]
         protected RectTransform _screenContainerTransform;
-        
-        #region 通知
-
-        public abstract Observable<Unit> OnScreenBackButtonClicked { get; }
-
-        #endregion
         
         private ScreenContainerBaseData.AnimationType _animationType;
         
