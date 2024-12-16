@@ -35,9 +35,6 @@ namespace JABARACdesign.Base.Presentation.UI.Screen
         {
         }
         
-        public TModel Model { get; }
-        public TView View { get; }
-        
         /// <summary>
         /// スクリーンタイトルを取得する。
         /// </summary>
