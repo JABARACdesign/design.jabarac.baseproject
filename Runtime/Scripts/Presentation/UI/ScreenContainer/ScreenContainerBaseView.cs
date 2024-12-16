@@ -195,21 +195,14 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             // 現在のスクリーンが無い場合(初回表示)は、 nextScreen をそのまま表示する
             if (currentScreen == null)
             {
-                if (nextScreen == null)
-                {
-                    LogHelper.Error(message: "新たに表示するスクリーンが存在しません。");
-                }
-
-                await nextScreen.PlaySlideAnimationAsync(
-                    isForward: true,
-                    startPositionX: 0, 
-                    screenWidth: RectTransform.rect.width,
-                    cancellationToken: cancellationToken);
+                if (nextScreen != null) return;
+                
+                LogHelper.Error(message: "新たに表示するスクリーンが存在しません。");
                 return;
             }
 
             // currentScreenとnextScreenの間でpush/popアニメーションを行う
-            float screenWidth = RectTransform.rect.width;
+            var screenWidth = RectTransform.rect.width;
             if (isForward)
             {
                 // Forward: currentスクリーンを左へ、nextスクリーンを右から左へスライドイン
