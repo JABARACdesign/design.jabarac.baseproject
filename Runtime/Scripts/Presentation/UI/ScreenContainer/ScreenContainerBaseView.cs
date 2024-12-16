@@ -81,6 +81,8 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         [SerializeField]
         protected RectTransform _screenContainerTransform;
         
+        public RectTransform ScreenContainerTransform => _screenContainerTransform;
+        
         private ScreenContainerBaseData.AnimationType _animationType;
         
         public override async UniTask InitializeViewAsync(CancellationToken cancellationToken = default)
