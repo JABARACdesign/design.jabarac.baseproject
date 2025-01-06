@@ -20,12 +20,25 @@ namespace JABARACdesign.Base.Presentation.Adjuster
         private bool _isFixAspectRatio;
         
         [SerializeField]
+        private bool _fitToLongerSide;
+        
+        [SerializeField]
         private RectTransform _parentRectTransform;
         
         [SerializeField]
         private RectTransform _targetRectTransform;
         
         private Vector2 _parentSize = default;
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if ( _parentRectTransform != null && _targetRectTransform != null)
+            {
+                AdjustSizeOnEditor();
+            }
+        }
+#endif
         
         public void Awake()
         {
@@ -91,6 +104,24 @@ namespace JABARACdesign.Base.Presentation.Adjuster
                 targetSize = _isFitWidth
                     ? new Vector2(x: targetSize.x, y: targetSize.x / aspectRatio)
                     : new Vector2(x: targetSize.y * aspectRatio, y: targetSize.y);
+            }
+            else if (_isFitWidth && _isFitHeight && _isFixAspectRatio)
+            {
+                var parentAspectRatio = _parentSize.x / _parentSize.y;
+                var isParentWider = parentAspectRatio > aspectRatio;
+
+                if (_fitToLongerSide)
+                {
+                    targetSize = isParentWider
+                        ? new Vector2(x: _parentSize.x, y: _parentSize.x / aspectRatio)
+                        : new Vector2(x: _parentSize.y * aspectRatio, y: _parentSize.y);
+                }
+                else
+                {
+                    targetSize = isParentWider
+                        ? new Vector2(x: _parentSize.y * aspectRatio, y: _parentSize.y)
+                        : new Vector2(x: _parentSize.x, y: _parentSize.x / aspectRatio);
+                }
             }
             else
             {
