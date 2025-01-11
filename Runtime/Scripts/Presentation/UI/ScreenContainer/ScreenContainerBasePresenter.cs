@@ -22,6 +22,8 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         where TModel : IScreenContainerBaseModel
         where TView : IScreenContainerBaseView
     {
+        protected Stack<IScreenBasePresenter<IScreenBaseModel, IScreenBaseView>> ScreenStack => _screenStack;
+        
         private readonly Stack<IScreenBasePresenter<IScreenBaseModel, IScreenBaseView>> _screenStack = new();
         
         private IScreenBasePresenter<IScreenBaseModel, IScreenBaseView> _currentScreenPresenter;
@@ -47,19 +49,21 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         /// 初期ページを生成する。
         /// </summary>
         /// <param name="cancellationToken"></param>
-        private async UniTask PushInitialScreenAsync(CancellationToken cancellationToken)
+        private async UniTask<(IScreenBaseView, IScreenBasePresenter<IScreenBaseModel, IScreenBaseView>)> PushInitialScreenAsync(CancellationToken cancellationToken)
         {
             var (screenView, screenPresenter) = await CreateInitialScreenAsync(cancellationToken: cancellationToken);
             
             _screenStack.Push(screenPresenter);
             
             // 初期スクリーン表示（現在のスクリーンは存在しないためnullを渡す）
-            await View.TransitionToScreenAsync(
+            View.TransitionToScreenAsync(
                 currentScreen: null,
                 nextScreen: screenView,
                 isForward: true,
                 cancellationToken: cancellationToken
-            );
+            ).Forget();
+            
+            return (screenView, screenPresenter);
         }
         
         /// <summary>
@@ -83,7 +87,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         /// <param name="data">初期化データ</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>プッシュされたスクリーンのプレゼンター</returns>
-        public async UniTask PushScreenAsync<
+        public async UniTask<(IScreenBaseView, IScreenBasePresenter<IScreenBaseModel, IScreenBaseView>)> PushScreenAsync<
             TScreenModel,
             TScreenView, 
             TScreenPresenter,
@@ -120,12 +124,14 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             
             var currentView = currentPresenter?.View;
             
-            await View.TransitionToScreenAsync(
+            View.TransitionToScreenAsync(
                 currentScreen: currentView,
                 nextScreen: nextView,
                 isForward: true,
                 cancellationToken: cancellationToken
-            );
+            ).Forget();
+            
+            return (nextView, nextPresenter);
         }
         
         /// <summary>
