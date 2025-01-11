@@ -49,14 +49,18 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             where TEnum : Enum;
 
         /// <summary>
-        /// トランジション処理を行う。
-        /// currentScreenは現在表示中の画面、nextScreenは次に表示する画面。
-        /// isForwardがtrueの場合はPush遷移的アニメーション、falseの場合はPop遷移的アニメーションを行う。
+        /// スクリーン遷移アニメーションを再生する
         /// </summary>
-        UniTask TransitionToScreenAsync(
+        /// <param name="currentScreen">現在表示中のスクリーン</param>
+        /// <param name="nextScreen">次に表示するスクリーン</param>
+        /// <param name="isForward">前進方向へのアニメーションか</param>
+        /// <param name="transitionType">遷移アニメーションの種類</param>
+        /// <param name="cancellationToken">キャンセルトークン</param>
+        UniTask PlayScreenTransitionAnimationAsync(
             IScreenBaseView currentScreen,
             IScreenBaseView nextScreen,
             bool isForward,
+            ScreenContainerBaseData.ScreenTransitionType transitionType,
             CancellationToken cancellationToken);
 
         /// <summary>
@@ -73,6 +77,8 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
     public abstract class ScreenContainerBaseView<TData> : DIBaseUIView<TData>, IScreenContainerBaseView
         where TData : ScreenContainerBaseData
     {
+
+        
         private const float FADE_ANIMATION_DURATION = 0.3f;
         
         [SerializeField]
@@ -186,23 +192,95 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
                 cancellationToken: cancellationToken);
         }
         
-        public async UniTask TransitionToScreenAsync(
+        /// <summary>
+        /// スクリーン遷移アニメーションを再生する
+        /// </summary>
+        /// <param name="currentScreen">現在表示中のスクリーン</param>
+        /// <param name="nextScreen">次に表示するスクリーン</param>
+        /// <param name="isForward">前進方向へのアニメーションか</param>
+        /// <param name="transitionType">遷移アニメーションの種類</param>
+        /// <param name="cancellationToken">キャンセルトークン</param>
+        public async UniTask PlayScreenTransitionAnimationAsync(
             IScreenBaseView currentScreen,
             IScreenBaseView nextScreen,
             bool isForward,
+            ScreenContainerBaseData.ScreenTransitionType transitionType,
             CancellationToken cancellationToken)
         {
             // 現在のスクリーンが無い場合(初回表示)は、 nextScreen をそのまま表示する
             if (currentScreen == null)
             {
                 if (nextScreen != null) return;
-                
+        
                 LogHelper.Error(message: "新たに表示するスクリーンが存在しません。");
                 return;
             }
 
             // currentScreenとnextScreenの間でpush/popアニメーションを行う
+            switch (transitionType)
+            {
+                case ScreenContainerBaseData.ScreenTransitionType.None:
+                    break;
+            
+                case ScreenContainerBaseData.ScreenTransitionType.Fade:
+                    await PlayTransitionFadeAnimationAsync(
+                        currentScreen,
+                        nextScreen,
+                        cancellationToken);
+                    break;
+            
+                case ScreenContainerBaseData.ScreenTransitionType.Slide:
+                    await PlayTransitionSlideAnimationAsync(
+                        currentScreen,
+                        nextScreen,
+                        isForward,
+                        cancellationToken);
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+        
+        /// <summary>
+        /// フェードアニメーションを再生する
+        /// </summary>
+        /// <param name="currentScreen">現在のスクリーン</param>
+        /// <param name="nextScreen">次のスクリーン</param>
+        /// <param name="cancellationToken">キャンセルトークン</param>
+        private async UniTask PlayTransitionFadeAnimationAsync(
+            IScreenBaseView currentScreen,
+            IScreenBaseView nextScreen,
+            CancellationToken cancellationToken)
+        {
+            var fadeOutTask = currentScreen.PlayFadeAnimationAsync(
+                startAlpha: 1,
+                endAlpha: 0,
+                cancellationToken: cancellationToken);
+
+            var fadeInTask = nextScreen.PlayFadeAnimationAsync(
+                startAlpha: 0,
+                endAlpha: 1,
+                cancellationToken: cancellationToken);
+
+            await UniTask.WhenAll(fadeOutTask, fadeInTask);
+        }
+        
+        /// <summary>
+        /// スライドアニメーションを再生する
+        /// </summary>
+        /// <param name="currentScreen">現在のスクリーン</param>
+        /// <param name="nextScreen">次のスクリーン</param>
+        /// <param name="isForward">前方向の遷移か</param>
+        /// <param name="cancellationToken">キャンセルトークン</param>
+        private async UniTask PlayTransitionSlideAnimationAsync(
+            IScreenBaseView currentScreen,
+            IScreenBaseView nextScreen,
+            bool isForward,
+            CancellationToken cancellationToken)
+        {
             var screenWidth = RectTransform.rect.width;
+    
             if (isForward)
             {
                 // Forward: currentスクリーンを左へ、nextスクリーンを右から左へスライドイン
@@ -218,7 +296,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
                     screenWidth: screenWidth,
                     cancellationToken: cancellationToken);
 
-                await UniTask.WhenAll(tasks: new[] { currentScreenAnimationTask, nextScreenAnimationTask });
+                await UniTask.WhenAll(currentScreenAnimationTask, nextScreenAnimationTask);
             }
             else
             {
@@ -235,7 +313,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
                     screenWidth: screenWidth,
                     cancellationToken: cancellationToken);
 
-                await UniTask.WhenAll(tasks: new[] { previousScreenAnimationTask, currentScreenAnimationTask });
+                await UniTask.WhenAll(previousScreenAnimationTask, currentScreenAnimationTask);
             }
         }
         

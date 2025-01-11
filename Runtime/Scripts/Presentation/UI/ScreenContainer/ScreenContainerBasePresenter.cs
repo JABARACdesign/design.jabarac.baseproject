@@ -56,10 +56,11 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             _screenStack.Push(screenPresenter);
             
             // 初期スクリーン表示（現在のスクリーンは存在しないためnullを渡す）
-            View.TransitionToScreenAsync(
+            View.PlayScreenTransitionAnimationAsync(
                 currentScreen: null,
                 nextScreen: screenView,
                 isForward: true,
+                ScreenContainerBaseData.ScreenTransitionType.None,
                 cancellationToken: cancellationToken
             ).Forget();
             
@@ -85,6 +86,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         /// <param name="assetSettings">アセット設定</param>
         /// <param name="label">ラベル</param>
         /// <param name="data">初期化データ</param>
+        /// <param name="transitionType">遷移アニメーションタイプ</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>プッシュされたスクリーンのプレゼンター</returns>
         public async UniTask<(TScreenView, TScreenPresenter)> PushScreenAsync<
@@ -97,6 +99,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             IAssetSettings<TEnum> assetSettings,
             TEnum label,
             TScreenData data,
+            ScreenContainerBaseData.ScreenTransitionType transitionType,
             CancellationToken cancellationToken)
             where TScreenModel : class, IScreenBaseModel
             where TScreenView : MonoBehaviour, IScreenBaseView
@@ -124,21 +127,25 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             
             var currentView = currentPresenter?.View;
             
-            View.TransitionToScreenAsync(
+            View.PlayScreenTransitionAnimationAsync(
                 currentScreen: currentView,
                 nextScreen: nextView,
                 isForward: true,
+                transitionType: transitionType,
                 cancellationToken: cancellationToken
             ).Forget();
             
             return (nextView, nextPresenter);
         }
-        
+
         /// <summary>
         /// スクリーンコンテナからスクリーンをポップする。
         /// </summary>
+        /// <param name="transitionType">遷移アニメーションタイプ</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
-        public IScreenBasePresenter<IScreenBaseModel,IScreenBaseView> PopScreen(CancellationToken cancellationToken)
+        public IScreenBasePresenter<IScreenBaseModel,IScreenBaseView> PopScreen(
+            ScreenContainerBaseData.ScreenTransitionType transitionType,
+            CancellationToken cancellationToken)
         {
             if (_screenStack.Count <= 1)
             {
@@ -153,10 +160,11 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             var previousView = previousPresenter.View;
             
             // スクリーン遷移アニメーション
-            View.TransitionToScreenAsync(
+            View.PlayScreenTransitionAnimationAsync(
                 currentScreen: currentView,
                 nextScreen: previousView,
                 isForward: false,
+                transitionType: transitionType,
                 cancellationToken: cancellationToken
             ).Forget();
 

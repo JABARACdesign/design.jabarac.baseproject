@@ -9,12 +9,22 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
     public abstract class ScreenContainerBaseData : BaseUIData
     {
         /// <summary>
-        /// アニメーションのタイプ
+        /// コンテナ自身のアニメーションのタイプ
         /// </summary>
         public enum AnimationType
         {
             None,
             Fade,
+        }
+        
+        /// <summary>
+        /// スクリーンのトランジションタイプ
+        /// </summary>
+        public enum ScreenTransitionType
+        {
+            None,
+            Fade,
+            Slide,
         }
         
         [SerializeField]
