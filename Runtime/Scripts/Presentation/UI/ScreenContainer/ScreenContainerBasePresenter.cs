@@ -87,7 +87,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         /// <param name="data">初期化データ</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>プッシュされたスクリーンのプレゼンター</returns>
-        public async UniTask<(IScreenBaseView, IScreenBasePresenter<IScreenBaseModel, IScreenBaseView>)> PushScreenAsync<
+        public async UniTask<(TScreenView, TScreenPresenter)> PushScreenAsync<
             TScreenModel,
             TScreenView, 
             TScreenPresenter,
@@ -138,12 +138,12 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         /// スクリーンコンテナからスクリーンをポップする。
         /// </summary>
         /// <param name="cancellationToken">キャンセルトークン</param>
-        public async UniTask PopScreenAsync(CancellationToken cancellationToken)
+        public IScreenBasePresenter<IScreenBaseModel,IScreenBaseView> PopScreen(CancellationToken cancellationToken)
         {
             if (_screenStack.Count <= 1)
             {
                 LogHelper.Warning("最後のスクリーンのため、ポップできません。");
-                return;
+                return null;
             }
             
             var currentPresenter = _screenStack.Pop();
@@ -153,15 +153,17 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             var previousView = previousPresenter.View;
             
             // スクリーン遷移アニメーション
-            await View.TransitionToScreenAsync(
+            View.TransitionToScreenAsync(
                 currentScreen: currentView,
                 nextScreen: previousView,
                 isForward: false,
                 cancellationToken: cancellationToken
-            );
+            ).Forget();
 
             // Pop後、不要になったスクリーンを破棄
             currentView.DisposeUI();
+            
+            return previousPresenter;
         }
     }
 }
