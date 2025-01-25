@@ -24,52 +24,51 @@ namespace JABARACdesign.Base.Domain.Definition
         }
         
         /// <summary>
-        /// Voickにおける色の定義。
+        /// 色の定義。
         /// </summary>
-        public enum VoickColor
+        public enum MyColor
         {
+            // Primary colors
+            Primary,
+            OnPrimary,
             PrimaryContainer,
             OnPrimaryContainer,
-            OnPrimary,
-            Primary,
-            SecondaryContainer,
-            OnSecondaryContainer,
+
+            // Secondary colors
             Secondary,
             OnSecondary,
-            TertiaryContainer,
-            OnTertiaryContainer,
-            ErrorContainer,
-            OnErrorContainer,
-            Error,
-            OnError,
+            SecondaryContainer,
+            OnSecondaryContainer,
+
+            // Tertiary colors
             Tertiary,
             OnTertiary,
+            TertiaryContainer,
+            OnTertiaryContainer,
+
+            // Error colors
+            Error,
+            OnError,
+            ErrorContainer,
+            OnErrorContainer,
+
+            // Background and surface colors
             Background,
             OnBackground,
             Surface,
             OnSurface,
-            Outline,
             SurfaceVariant,
             OnSurfaceVariant,
-            Scrim,
             SurfaceContainer,
             OnSurfaceContainer,
+
+            // Outline colors
+            Outline,
             OutlineVariant,
-            Quaternary,
-            OnQuaternary,
-            OnQuaternaryContainer,
-            QuaternaryContainer,
-            Quinary,
-            OnQuinary,
-            QuinaryContainer,
-            OnQuinaryContainer,
+
+            // Other
+            Scrim,
             Clear,
-            ScoreE,
-            ScoreC,
-            ScoreB,
-            ScoreA,
-            ScoreS,
-            ScoreSS,
         }
         
         private const float NONE = 1.0f;
@@ -83,72 +82,71 @@ namespace JABARACdesign.Base.Domain.Definition
         private static Color NOT_DEFINED_COLOR = new(r: 0, g: 0, b: 0, a: 0);
         
         /// <summary>
-        /// Voickにおける色の定義から色コードの辞書。
+        /// 色の定義から色コードの辞書。
         /// </summary>
-        private static readonly Dictionary<VoickColor, string> VoickColorCodeDictionary =
+        private static readonly Dictionary<MyColor, string> MyColorCodeDictionary =
             new()
             {
-                { VoickColor.PrimaryContainer, "#67DEDF" },
-                { VoickColor.OnPrimaryContainer, "#195F64" },
-                { VoickColor.OnPrimary, "#DDF3F5" },
-                { VoickColor.Primary, "#21B4B9" },
-                { VoickColor.SecondaryContainer, "#D2E457" },
-                { VoickColor.OnSecondaryContainer, "#555E13" },
-                { VoickColor.Secondary, "#96C838" },
-                { VoickColor.OnSecondary, "#F8FAED" },
-                { VoickColor.TertiaryContainer, "#F8C756" },
-                { VoickColor.OnTertiaryContainer, "#754F18" },
-                { VoickColor.ErrorContainer, "#FE7787" },
-                { VoickColor.OnErrorContainer, "#7E1C28" },
-                { VoickColor.Error, "#E45F6F" },
-                { VoickColor.OnError, "#FFF2F4" },
-                { VoickColor.Tertiary, "#EFA842" },
-                { VoickColor.OnTertiary, "#FAF6ED" },
-                { VoickColor.Background, "#3E3E3E" },
-                { VoickColor.OnBackground, "#E9EDEF" },
-                { VoickColor.Surface, "#4D4D4D" },
-                { VoickColor.OnSurface, "#FFFFFF" }, //
-                { VoickColor.Outline, "#B7BDC0" },
-                { VoickColor.SurfaceVariant, "#677378" },
-                { VoickColor.OnSurfaceVariant, "#CAD4D9" },
-                { VoickColor.Scrim, "#000000" },
-                { VoickColor.SurfaceContainer, "#ECECEC" },
-                { VoickColor.OnSurfaceContainer, "#676767" },
-                { VoickColor.OutlineVariant, "#BDC8CC" },
-                { VoickColor.Quaternary, "#D76BB2" },
-                { VoickColor.OnQuaternary, "#F9EAF3" },
-                { VoickColor.OnQuaternaryContainer, "#76275B" },
-                { VoickColor.QuaternaryContainer, "#EB85C8" },
-                { VoickColor.Quinary, "#E96D46" },
-                { VoickColor.OnQuinary, "#FBEEEA" },
-                { VoickColor.QuinaryContainer, "#F5835F" },
-                { VoickColor.OnQuinaryContainer, "#752B13" },
-                { VoickColor.Clear, "#00000000" },
-                { VoickColor.ScoreSS, "#EFB1FF" },
-                { VoickColor.ScoreS, "#97DAFF" },
-                { VoickColor.ScoreA, "#FBD164" },
-                { VoickColor.ScoreE, "#ECECEC" },
-                { VoickColor.ScoreB, "#BFD2F7" },
-                { VoickColor.ScoreC, "#CDB3A1" },
+                // Primary colors
+                { MyColor.Primary, "#21B4B9" },
+                { MyColor.OnPrimary, "#DDF3F5" },
+                { MyColor.PrimaryContainer, "#67DEDF" },
+                { MyColor.OnPrimaryContainer, "#195F64" },
+
+                // Secondary colors
+                { MyColor.Secondary, "#96C838" },
+                { MyColor.OnSecondary, "#F8FAED" },
+                { MyColor.SecondaryContainer, "#D2E457" },
+                { MyColor.OnSecondaryContainer, "#555E13" },
+
+                // Tertiary colors
+                { MyColor.Tertiary, "#EFA842" },
+                { MyColor.OnTertiary, "#FAF6ED" },
+                { MyColor.TertiaryContainer, "#F8C756" },
+                { MyColor.OnTertiaryContainer, "#754F18" },
+
+                // Error colors
+                { MyColor.Error, "#E45F6F" },
+                { MyColor.OnError, "#FFF2F4" },
+                { MyColor.ErrorContainer, "#FE7787" },
+                { MyColor.OnErrorContainer, "#7E1C28" },
+
+                // Background and surface colors
+                { MyColor.Background, "#3E3E3E" },
+                { MyColor.OnBackground, "#E9EDEF" },
+                { MyColor.Surface, "#4D4D4D" },
+                { MyColor.OnSurface, "#FFFFFF" },
+                { MyColor.SurfaceVariant, "#677378" },
+                { MyColor.OnSurfaceVariant, "#CAD4D9" },
+                { MyColor.SurfaceContainer, "#ECECEC" },
+                { MyColor.OnSurfaceContainer, "#676767" },
+
+                // Outline colors
+                { MyColor.Outline, "#B7BDC0" },
+                { MyColor.OutlineVariant, "#BDC8CC" },
+
+                // Other
+                { MyColor.Scrim, "#000000" },
+                { MyColor.Clear, "#00000000" },
             };
         
         /// <summary>
-        /// Voickにおける色の定義から色を取得する。
+        /// 色の定義から色を取得する。
         /// </summary>
-        /// <param name="voickColor">VoickColor</param>
+        /// <param name="myColor">VoickColor</param>
         /// <param name="alphaType">アルファタイプ</param>
         /// <returns>Color</returns>
-        public static Color GetColor(VoickColor voickColor, AlphaType alphaType = AlphaType.None)
+        public static Color GetColor(MyColor myColor, AlphaType alphaType = AlphaType.None)
         {
-            if (!VoickColorCodeDictionary.TryGetValue(key: voickColor, value: out var colorCode))
+            if (!MyColorCodeDictionary.TryGetValue(key: myColor, value: out var colorCode))
             {
-                LogHelper.Error(message: $"定義されていない色が指定されました: {voickColor}");
+                LogHelper.Error(message: $"定義されていない色が指定されました: {myColor}");
                 return NOT_DEFINED_COLOR;
             }
             
             if (!ColorUtility.TryParseHtmlString(htmlString: colorCode, color: out var color))
             {
-                LogHelper.Error(message: $"色コードの解析に失敗しました: {voickColor} - {colorCode}");
+                LogHelper.Error(message: $"色コードの解析に失敗しました: {myColor} - {colorCode}");
                 return NOT_DEFINED_COLOR;
             }
             

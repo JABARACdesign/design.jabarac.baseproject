@@ -95,7 +95,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         {
             await base.InitializeViewAsync(cancellationToken: cancellationToken);
             
-            _animationType = _data.Animation;
+            _animationType = Data.Animation;
         }
         
         public override async UniTask PlayShowAnimationAsync(CancellationToken cancellationToken)

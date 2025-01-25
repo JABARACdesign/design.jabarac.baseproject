@@ -5,6 +5,7 @@ using JABARACdesign.Base.Application.UI;
 using JABARACdesign.Base.Domain.Entity.Helper;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace JABARACdesign.Base.Presentation.UI
 {
@@ -15,10 +16,11 @@ namespace JABARACdesign.Base.Presentation.UI
     public abstract class BaseUIView<TData> : BaseUIViewCore, IBaseUIView
         where TData : BaseUIData
     {
+        [FormerlySerializedAs("_data")]
         [Header(header: "設定項目")]
         
         [SerializeField]
-        protected TData _data;
+        protected TData Data;
         
         private CancellationToken _cancellationToken = default;
         
@@ -55,7 +57,7 @@ namespace JABARACdesign.Base.Presentation.UI
             }
             
             // 初期化データの反映
-            _data = castedData;
+            Data = castedData;
             
             // 初期化処理
             await InitializeViewAsync(cancellationToken: _cancellationToken);
@@ -156,7 +158,7 @@ namespace JABARACdesign.Base.Presentation.UI
             CancellationToken cancellationToken)
         {
             if (data is not TData castedData) return;
-            _data = castedData;
+            Data = castedData;
             
             await InitializeViewAsync(cancellationToken: cancellationToken);
         }
@@ -168,7 +170,7 @@ namespace JABARACdesign.Base.Presentation.UI
         public void UpdateViewOnEditor(BaseUIData data)
         {
             if (data is not TData castedData) return;
-            _data = castedData;
+            Data = castedData;
             ApplyViewOnEditor();
         }
         
