@@ -26,8 +26,6 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         
         private readonly Stack<IScreenBasePresenter<IScreenBaseModel, IScreenBaseView>> _screenStack = new();
         
-        private IScreenBasePresenter<IScreenBaseModel, IScreenBaseView> _currentScreenPresenter;
-        
         protected ScreenContainerBasePresenter(TModel model, TView view, IMstDataManager mstDataManager) : base(
             model: model,
             view: view,
@@ -143,7 +141,7 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
         /// </summary>
         /// <param name="transitionType">遷移アニメーションタイプ</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
-        public IScreenBasePresenter<IScreenBaseModel,IScreenBaseView> PopScreen(
+        public async UniTask<IScreenBasePresenter<IScreenBaseModel,IScreenBaseView>> PopScreenAsync(
             ScreenContainerBaseData.ScreenTransitionType transitionType,
             CancellationToken cancellationToken)
         {
@@ -160,13 +158,13 @@ namespace JABARACdesign.Base.Presentation.UI.ScreenContainer
             var previousView = previousPresenter.View;
             
             // スクリーン遷移アニメーション
-            View.PlayScreenTransitionAnimationAsync(
+            await View.PlayScreenTransitionAnimationAsync(
                 currentScreen: currentView,
                 nextScreen: previousView,
                 isForward: false,
                 transitionType: transitionType,
                 cancellationToken: cancellationToken
-            ).Forget();
+            );
 
             // Pop後、不要になったスクリーンを破棄
             currentView.DisposeUI();
