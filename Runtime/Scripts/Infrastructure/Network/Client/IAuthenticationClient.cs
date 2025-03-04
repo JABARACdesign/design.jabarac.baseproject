@@ -30,7 +30,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client
             CreateAnonymousUserAsync(CancellationToken cancellationToken = default);
         
         /// <summary>
-        /// ユーザー登録を行う
+        /// ユーザー登録を行う。
         /// </summary>
         /// <param name="email">メールアドレス</param>
         /// <param name="password">パスワード</param>
@@ -42,15 +42,29 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client
             string password,
             string displayName,
             CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 匿名アカウントをメールアドレス認証にアップグレードする。
+        /// </summary>
+        /// <param name="email">メールアドレス</param>
+        /// <param name="password">パスワード</param>
+        /// <param name="displayName">表示名</param>
+        /// <param name="cancellationToken">キャンセルトークン</param>
+        /// <returns>APIレスポンス</returns>
+        UniTask<IAPIResponse<UpgradeAnonymousAccountResponseDto>> UpgradeAnonymousAccountAsync(
+            string email,
+            string password,
+            string displayName,
+            CancellationToken cancellationToken = default);
         
         /// <summary>
-        /// ログイン状態かどうかを判定する
+        /// ログイン状態かどうかを判定する。
         /// </summary>
         /// <returns>ログイン状態の場合はtrue、それ以外の場合はfalse</returns>
         IAPIResponse<GetIsLoggedInDto> GetIsLoggedIn();
         
         /// <summary>
-        /// メールアドレスとパスワードでログインする
+        /// メールアドレスとパスワードでログインする。
         /// </summary>
         /// <param name="email">メールアドレス</param>
         /// <param name="password">パスワード</param>

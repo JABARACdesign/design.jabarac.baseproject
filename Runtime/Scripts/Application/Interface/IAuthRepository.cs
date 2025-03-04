@@ -58,5 +58,19 @@ namespace JABARACdesign.Base.Application.Interface
             string email,
             string password,
             CancellationToken cancellationToken);
+
+        /// <summary>
+        /// 匿名アカウントをアップグレードする。
+        /// </summary>
+        /// <param name="email">メールアドレス</param>
+        /// <param name="password">パスワード</param>
+        /// <param name="displayName">表示名</param>
+        /// <param name="cancellationToken">キャンセルトークン</param>
+        /// <returns>APIレスポンス</returns>
+        UniTask<IAPIResponse> UpgradeAnonymousAccountAsync(
+            string email,
+            string password,
+            string displayName,
+            CancellationToken cancellationToken = default);
     }
 }

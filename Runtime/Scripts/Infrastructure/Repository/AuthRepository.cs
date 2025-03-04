@@ -1,9 +1,12 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using JABARACdesign.Base.Application.Interface;
 using JABARACdesign.Base.Domain.Entity.API;
+using JABARACdesign.Base.Domain.Entity.Helper;
 using JABARACdesign.Base.Infrastructure.Dto.API;
 using JABARACdesign.Base.Infrastructure.Extension;
+using JABARACdesign.Base.Infrastructure.Network.API;
 using JABARACdesign.Base.Infrastructure.Network.Client;
 using VContainer;
 
@@ -57,7 +60,7 @@ namespace JABARACdesign.Base.Infrastructure.Repository
         }
         
         /// <summary>
-        /// ユーザー登録を行う
+        /// ユーザー登録を行う。
         /// </summary>
         /// <param name="email">メールアドレス</param>
         /// <param name="password">パスワード</param>
@@ -92,7 +95,7 @@ namespace JABARACdesign.Base.Infrastructure.Repository
         }
         
         /// <summary>
-        /// メールアドレスとパスワードでログインする
+        /// メールアドレスとパスワードでログインする。
         /// </summary>
         /// <param name="email">メールアドレス</param>
         /// <param name="password">パスワード</param>
@@ -109,6 +112,47 @@ namespace JABARACdesign.Base.Infrastructure.Repository
                 cancellationToken: cancellationToken);
             
             return response.ToEntityResponse<LogInWithEmailAndPasswordResponseDto, LogInWithEmailAndPasswordResponse>();
+        }
+        
+        /// <summary>
+        /// 匿名アカウントをアップグレードする。
+        /// </summary>
+        /// <param name="email">メールアドレス</param>
+        /// <param name="password">パスワード</param>
+        /// <param name="displayName">表示名</param>
+        /// <param name="cancellationToken">キャンセルトークン</param>
+        /// <returns>APIレスポンス</returns>
+        public async UniTask<IAPIResponse> UpgradeAnonymousAccountAsync(
+            string email,
+            string password,
+            string displayName,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var response = await _authenticationClient.UpgradeAnonymousAccountAsync(
+                    email, password, displayName, cancellationToken);
+                
+                if (response.Status == APIStatus.Code.Success)
+                {
+                    return new APIResponse(
+                        status: APIStatus.Code.Success);
+                }
+                else
+                {
+                    return new APIResponse(
+                        status: APIStatus.Code.Error,
+                        errorMessage: response.ErrorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = $"アカウントアップグレード中に例外が発生しました: {ex.Message}";
+                LogHelper.Error(errorMessage);
+                return new APIResponse(
+                    status: APIStatus.Code.Error,
+                    errorMessage: errorMessage);
+            }
         }
     }
 }
