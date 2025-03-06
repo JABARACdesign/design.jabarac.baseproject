@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using JABARACdesign.Base.Application.Interface;
+using JABARACdesign.Base.Domain.Interface;
 using JABARACdesign.Base.Infrastructure.Network.API;
 
 namespace JABARACdesign.Base.Infrastructure.Network.Client

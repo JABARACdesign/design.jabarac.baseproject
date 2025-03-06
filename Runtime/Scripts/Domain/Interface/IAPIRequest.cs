@@ -1,6 +1,6 @@
-﻿using JABARACdesign.Base.Infrastructure.Helper;
+﻿using JABARACdesign.Base.Domain.Definition;
 
-namespace JABARACdesign.Base.Infrastructure.Network.API
+namespace JABARACdesign.Base.Domain.Interface
 {
     /// <summary>
     /// APIリクエストインターフェース。
@@ -9,7 +9,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.API
     {
         string Uri { get; }
 
-        APIHelper.HttpMethod Method { get; }
+        APIDefinition.HttpMethodType MethodType { get; }
     }
     
     /// <summary>

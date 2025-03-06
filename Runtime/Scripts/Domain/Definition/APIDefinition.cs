@@ -1,12 +1,12 @@
-﻿namespace JABARACdesign.Base.Infrastructure.Helper
+﻿namespace JABARACdesign.Base.Domain.Definition
 {
     /// <summary>
-    /// API関連のヘルパークラス。
+    /// API関連の定義クラス。
     /// </summary>
-    public static class APIHelper
+    public static class APIDefinition
     {
         /// <summary>HTTPメソッド</summary>
-        public enum HttpMethod
+        public enum HttpMethodType
         {
             GET,
 
