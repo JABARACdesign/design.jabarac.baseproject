@@ -85,7 +85,7 @@ namespace JABARACdesign.Base.Presentation.UI
             // イベントの設定
             SetupViewEvent();
             
-            await PlayShowAnimationAsync(cancellationToken: cancellationToken).Forget();
+            PlayShowAnimationAsync(cancellationToken: cancellationToken).Forget();
         }
         
         protected abstract void ApplyView();
