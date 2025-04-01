@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace JABARACdesign.Base.Infrastructure.Helper
+namespace JABARACdesign.Base.Helper
 {
     /// <summary>
     /// JSONのヘルパークラス
