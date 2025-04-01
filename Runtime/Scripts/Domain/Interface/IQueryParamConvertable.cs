@@ -1,4 +1,4 @@
-﻿namespace JABARACdesign.Base.Infrastructure.Dto.API
+﻿namespace JABARACdesign.Base.Domain.Interface
 {
     /// <summary>
     /// クエリパラメータ変換可能インターフェース。
