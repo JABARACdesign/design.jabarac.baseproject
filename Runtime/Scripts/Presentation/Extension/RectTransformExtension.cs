@@ -267,6 +267,8 @@ namespace JABARACdesign.Base.Presentation.Extension
             }
         }
         
+        #if UNITY_EDITOR
+        
         public static void DeleteAllChildrenImmediateOnEditor(
             this RectTransform rectTransform,
             List<GameObject> ignoreObjects = null)
@@ -280,6 +282,8 @@ namespace JABARACdesign.Base.Presentation.Extension
                 }
             }
         }
+        
+        #endif
         
         #endregion Children
     }
