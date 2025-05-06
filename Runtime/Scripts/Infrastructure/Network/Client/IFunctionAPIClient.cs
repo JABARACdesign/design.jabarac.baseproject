@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using JABARACdesign.Base.Application.Interface;
 using JABARACdesign.Base.Domain.Interface;
+using JABARACdesign.Base.Infrastructure.Dto.API;
 using JABARACdesign.Base.Infrastructure.Network.API;
 
 namespace JABARACdesign.Base.Infrastructure.Network.Client
@@ -21,7 +22,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client
         UniTask<IAPIResponse<TResponseData>> SendAsync<TResponseData>(
             IAPIRequest request,
             CancellationToken cancellationToken = default);
-            
+
         /// <summary>
         /// データ付きリクエストを送信するFunction呼び出し
         /// </summary>
@@ -32,7 +33,8 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client
         /// <returns>APIレスポンス</returns>
         UniTask<IAPIResponse<TResponseData>> SendAsync<TDto, TResponseData>(
             IApiRequest<TDto> request,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default)
+            where TDto : IQueryParamConvertible;
             
         /// <summary>
         /// レスポンスデータ不要のFunction呼び出し
@@ -53,6 +55,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client
         /// <returns>APIレスポンス</returns>
         UniTask<IAPIResponse> SendAsync<TDto>(
             IApiRequest<TDto> request,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default)
+            where TDto : IQueryParamConvertible;
     }
 }
