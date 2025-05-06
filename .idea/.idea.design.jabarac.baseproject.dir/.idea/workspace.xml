@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c73c2fc5-7f1d-4ab5-b3bc-573694be6faa" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Runtime/Scripts/Presentation/UI/ScreenContainer/ScreenContainerBasePresenter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/Scripts/Presentation/UI/ScreenContainer/ScreenContainerBasePresenter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Network/Client/LocalData/LocalStorageApiClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Network/Client/LocalData/LocalStorageApiClient.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +16,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Helper/JsonHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Network/Client/LocalData/LocalStorageApiClient.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Runtime/Scripts/Presentation/UI/Screen/ScreenBaseData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Runtime/Scripts/Presentation/UI/Screen/ScreenBaseView.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Runtime/Scripts/Presentation/UI/ScreenContainer/ScreenContainerBaseData.cs" root0="SKIP_HIGHLIGHTING" />
@@ -64,6 +66,7 @@
       <workItem from="1739703055986" duration="109000" />
       <workItem from="1739703196986" duration="50000" />
       <workItem from="1739703352572" duration="14000" />
+      <workItem from="1746566675730" duration="307000" />
     </task>
     <servers />
   </component>

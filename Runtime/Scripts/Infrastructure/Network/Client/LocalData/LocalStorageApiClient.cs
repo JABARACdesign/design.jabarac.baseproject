@@ -196,5 +196,186 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
                     errorMessage: $"ファイルの読み込み中にエラーが発生しました: {e.Message}");
             }
         }
+        
+        /// <summary>
+        /// ローカルからJSONデータをロードする。
+        /// </summary>
+        /// <typeparam name="T">JSONデータの型</typeparam>
+        /// <param name="userId">ユーザーID</param>
+        /// <param name="identifier">識別子</param>
+        /// <param name="extensionType">拡張子</param>
+        /// <param name="fileType">取得するファイルのタイプ</param>
+        /// <returns>APIレスポンス(T型のデータ)</returns>
+        public async UniTask<IAPIResponse<T>> LoadJsonAsync<T>(
+            string userId,
+            string identifier,
+            StorageDefinition.ExtensionType extensionType,
+            StorageDefinition.FileType fileType)
+        {
+            var localFilePath = _localPathProvider.GetFilePath(
+                userId: userId,
+                identifier: identifier,
+                extensionType: extensionType,
+                fileType: fileType);
+    
+            LogHelper.Debug(message: $"LoadJsonAsync: {localFilePath}");
+    
+            EnsureDirectoryExists(path: localFilePath);
+    
+            if (!File.Exists(path: localFilePath))
+            {
+                return new APIResponse<T>(
+                    status: APIStatus.Code.Error,
+                    data: default,
+                    errorMessage: "ファイルが見つかりませんでした。");
+            }
+    
+            try
+            {
+                var jsonText = await File.ReadAllTextAsync(path: localFilePath);
+                var data = JsonUtility.FromJson<T>(json: jsonText);
+        
+                if (data == null)
+                {
+                    return new APIResponse<T>(
+                        status: APIStatus.Code.Error,
+                        data: default,
+                        errorMessage: "JSONデータの変換に失敗しました。");
+                }
+        
+                return new APIResponse<T>(
+                    status: APIStatus.Code.Success,
+                    data: data,
+                    errorMessage: null);
+            }
+            catch (Exception e)
+            {
+                return new APIResponse<T>(
+                    status: APIStatus.Code.Error,
+                    data: default,
+                    errorMessage: $"JSONファイルの読み込み中にエラーが発生しました: {e.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// ローカルからJSON配列データをロードしてリストとして取得する。
+        /// </summary>
+        /// <typeparam name="T">JSONデータの型</typeparam>
+        /// <param name="userId">ユーザーID</param>
+        /// <param name="identifier">識別子</param>
+        /// <param name="extensionType">拡張子</param>
+        /// <param name="fileType">取得するファイルのタイプ</param>
+        /// <returns>APIレスポンス(T型のリスト)</returns>
+        public async UniTask<IAPIResponse<List<T>>> LoadJsonListAsync<T>(
+            string userId,
+            string identifier,
+            StorageDefinition.ExtensionType extensionType,
+            StorageDefinition.FileType fileType)
+        {
+            var localFilePath = _localPathProvider.GetFilePath(
+                userId: userId,
+                identifier: identifier,
+                extensionType: extensionType,
+                fileType: fileType);
+            
+            LogHelper.Debug(message: $"LoadJsonListAsync: {localFilePath}");
+            
+            EnsureDirectoryExists(path: localFilePath);
+            
+            if (!File.Exists(path: localFilePath))
+            {
+                return new APIResponse<List<T>>(
+                    status: APIStatus.Code.Error,
+                    data: null,
+                    errorMessage: "ファイルが見つかりませんでした。");
+            }
+            
+            try
+            {
+                var jsonText = await File.ReadAllTextAsync(path: localFilePath);
+                var dataList = JsonHelper.FromJsonList<T>(json: jsonText);
+                
+                if (dataList == null)
+                {
+                    return new APIResponse<List<T>>(
+                        status: APIStatus.Code.Error,
+                        data: null,
+                        errorMessage: "JSONデータの変換に失敗しました。");
+                }
+                
+                return new APIResponse<List<T>>(
+                    status: APIStatus.Code.Success,
+                    data: dataList,
+                    errorMessage: null);
+            }
+            catch (Exception e)
+            {
+                return new APIResponse<List<T>>(
+                    status: APIStatus.Code.Error,
+                    data: null,
+                    errorMessage: $"JSONファイルの読み込み中にエラーが発生しました: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// ローカルからJSON配列データをロードして配列として取得する。
+        /// </summary>
+        /// <typeparam name="T">JSONデータの型</typeparam>
+        /// <param name="userId">ユーザーID</param>
+        /// <param name="identifier">識別子</param>
+        /// <param name="extensionType">拡張子</param>
+        /// <param name="fileType">取得するファイルのタイプ</param>
+        /// <returns>APIレスポンス(T型の配列)</returns>
+        public async UniTask<IAPIResponse<T[]>> LoadJsonArrayAsync<T>(
+            string userId,
+            string identifier,
+            StorageDefinition.ExtensionType extensionType,
+            StorageDefinition.FileType fileType)
+        {
+            var localFilePath = _localPathProvider.GetFilePath(
+                userId: userId,
+                identifier: identifier,
+                extensionType: extensionType,
+                fileType: fileType);
+            
+            LogHelper.Debug(message: $"LoadJsonArrayAsync: {localFilePath}");
+            
+            EnsureDirectoryExists(path: localFilePath);
+            
+            if (!File.Exists(path: localFilePath))
+            {
+                return new APIResponse<T[]>(
+                    status: APIStatus.Code.Error,
+                    data: null,
+                    errorMessage: "ファイルが見つかりませんでした。");
+            }
+            
+            try
+            {
+                var jsonText = await File.ReadAllTextAsync(path: localFilePath);
+                var dataArray = JsonHelper.FromJsonArray<T>(json: jsonText);
+                
+                if (dataArray == null)
+                {
+                    return new APIResponse<T[]>(
+                        status: APIStatus.Code.Error,
+                        data: null,
+                        errorMessage: "JSONデータの変換に失敗しました。");
+                }
+                
+                return new APIResponse<T[]>(
+                    status: APIStatus.Code.Success,
+                    data: dataArray,
+                    errorMessage: null);
+            }
+            catch (Exception e)
+            {
+                return new APIResponse<T[]>(
+                    status: APIStatus.Code.Error,
+                    data: null,
+                    errorMessage: $"JSONファイルの読み込み中にエラーが発生しました: {e.Message}");
+            }
+        }
+
     }
 }
