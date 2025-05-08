@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c73c2fc5-7f1d-4ab5-b3bc-573694be6faa" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.design.jabarac.baseproject.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.design.jabarac.baseproject.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Network/Client/LocalData/LocalStorageApiClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Network/Client/LocalData/LocalStorageApiClient.cs" afterDir="false" />
-    </list>
+    <list default="true" id="c73c2fc5-7f1d-4ab5-b3bc-573694be6faa" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,7 +14,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Helper/JsonHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/Scripts/Domain/Helper/JsonHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Network/Client/ILocalStorageApiClient.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Network/Client/LocalData/LocalStorageApiClient.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Runtime/Scripts/Presentation/UI/Screen/ScreenBaseData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Runtime/Scripts/Presentation/UI/Screen/ScreenBaseView.cs" root0="SKIP_HIGHLIGHTING" />
@@ -72,6 +70,7 @@
       <workItem from="1746570173675" duration="43000" />
       <workItem from="1746570926326" duration="1547000" />
       <workItem from="1746699219175" duration="92000" />
+      <workItem from="1746699431533" duration="672000" />
     </task>
     <servers />
   </component>

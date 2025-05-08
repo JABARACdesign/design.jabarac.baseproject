@@ -2,6 +2,7 @@
 using JABARACdesign.Base.Application.Interface;
 using JABARACdesign.Base.Domain.Definition;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace JABARACdesign.Base.Infrastructure.Network.Client
 {
