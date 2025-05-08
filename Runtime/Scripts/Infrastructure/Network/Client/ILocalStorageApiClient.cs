@@ -51,5 +51,35 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client
             string identifier,
             StorageDefinition.ExtensionType extensionType,
             StorageDefinition.FileType fileType);
+
+        /// <summary>
+        /// ローカルからJSON配列データをロードしてリストとして取得する。
+        /// </summary>
+        /// <typeparam name="T">JSONデータの型</typeparam>
+        /// <param name="userId">ユーザーID</param>
+        /// <param name="identifier">識別子</param>
+        /// <param name="extensionType">拡張子</param>
+        /// <param name="fileType">取得するファイルのタイプ</param>
+        /// <returns>APIレスポンス(T型のリスト)</returns>
+        UniTask<IAPIResponse<List<T>>> LoadJsonListAsync<T>(
+            string userId,
+            string identifier,
+            StorageDefinition.ExtensionType extensionType,
+            StorageDefinition.FileType fileType);
+
+        /// <summary>
+        /// ローカルからJSON配列データをロードして配列として取得する。
+        /// </summary>
+        /// <typeparam name="T">JSONデータの型</typeparam>
+        /// <param name="userId">ユーザーID</param>
+        /// <param name="identifier">識別子</param>
+        /// <param name="extensionType">拡張子</param>
+        /// <param name="fileType">取得するファイルのタイプ</param>
+        /// <returns>APIレスポンス(T型の配列)</returns>
+        UniTask<IAPIResponse<T[]>> LoadJsonArrayAsync<T>(
+            string userId,
+            string identifier,
+            StorageDefinition.ExtensionType extensionType,
+            StorageDefinition.FileType fileType);
     }
 }
