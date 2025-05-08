@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c73c2fc5-7f1d-4ab5-b3bc-573694be6faa" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.design.jabarac.baseproject.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.design.jabarac.baseproject.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Network/Client/LocalData/LocalStorageApiClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Network/Client/LocalData/LocalStorageApiClient.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,6 +37,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/mizig/Documents/GitHub/design.jabarac.baseproject&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -66,7 +68,10 @@
       <workItem from="1739703055986" duration="109000" />
       <workItem from="1739703196986" duration="50000" />
       <workItem from="1739703352572" duration="14000" />
-      <workItem from="1746566675730" duration="307000" />
+      <workItem from="1746566675730" duration="863000" />
+      <workItem from="1746570173675" duration="43000" />
+      <workItem from="1746570926326" duration="1547000" />
+      <workItem from="1746699219175" duration="92000" />
     </task>
     <servers />
   </component>

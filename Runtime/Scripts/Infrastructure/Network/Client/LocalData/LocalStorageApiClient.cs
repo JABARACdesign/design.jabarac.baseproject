@@ -9,6 +9,8 @@ using JABARACdesign.Base.Infrastructure.Network.API;
 using JABARACdesign.Base.Infrastructure.PathProvider;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
 {
