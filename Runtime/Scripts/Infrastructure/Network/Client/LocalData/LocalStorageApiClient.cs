@@ -5,6 +5,7 @@ using JABARACdesign.Base.Application.Interface;
 using JABARACdesign.Base.Domain.Definition;
 using JABARACdesign.Base.Domain.Entity.API;
 using JABARACdesign.Base.Domain.Entity.Helper;
+using JABARACdesign.Base.Domain.Helper;
 using JABARACdesign.Base.Infrastructure.Network.API;
 using JABARACdesign.Base.Infrastructure.PathProvider;
 using UnityEngine;
