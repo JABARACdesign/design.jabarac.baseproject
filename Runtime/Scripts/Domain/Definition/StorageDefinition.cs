@@ -18,6 +18,7 @@ namespace JABARACdesign.Base.Domain.Definition
             Png,
             WAV,
             MP3,
+            Json
         }
         
         /// <summary>
@@ -33,6 +34,7 @@ namespace JABARACdesign.Base.Domain.Definition
                 ExtensionType.Png => ".png",
                 ExtensionType.WAV => ".wav",
                 ExtensionType.MP3 => ".mp3",
+                ExtensionType.Json => ".json",
                 _ => throw new NotImplementedException()
             };
         }

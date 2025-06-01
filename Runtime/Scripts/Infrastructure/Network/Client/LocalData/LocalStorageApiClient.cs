@@ -2,15 +2,12 @@
 using System.IO;
 using Cysharp.Threading.Tasks;
 using JABARACdesign.Base.Application.Interface;
-using JABARACdesign.Base.Domain.Definition;
 using JABARACdesign.Base.Domain.Entity.API;
 using JABARACdesign.Base.Domain.Entity.Helper;
 using JABARACdesign.Base.Domain.Helper;
 using JABARACdesign.Base.Infrastructure.Network.API;
-using JABARACdesign.Base.Infrastructure.PathProvider;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
@@ -22,25 +19,27 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
     {
         private const int DEFAULT_TEXTURE_SIZE = 2;
         
-        private readonly ILocalPathProvider _localPathProvider;
+        private readonly IPathProvider _pathProvider;
         
         /// <summary>
         /// コンストラクタ。
         /// </summary>
-        /// <param name="localPathProvider">ローカルパスプロパイダ</param>
-        public LocalStorageApiClient(ILocalPathProvider localPathProvider)
+        /// <param name="pathProvider">ローカルパスプロパイダ</param>
+        public LocalStorageApiClient(IPathProvider pathProvider)
         {
-            _localPathProvider = localPathProvider;
+            _pathProvider = pathProvider;
         }
         
         /// <summary>
         /// 対象のパスが存在するかどうかを確認し、存在しない場合はディレクトリを作成する。
         /// </summary>
         /// <param name="path">対象のパス</param>
-        private void EnsureDirectoryExists(string path)
+        private static void EnsureDirectoryExists(string path)
         {
             var directoryPath = Path.GetDirectoryName(path: path);
             if (Directory.Exists(path: directoryPath)) return;
+
+            if (directoryPath == null) return;
             
             Directory.CreateDirectory(path: directoryPath);
             LogHelper.Info(message: $"Created directory: {directoryPath}");
@@ -49,22 +48,12 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         /// <summary>
         /// ローカルファイルが存在するかどうかを返す。
         /// </summary>
-        /// <param name="userId">ユーザーID</param>
         /// <param name="identifier">識別子</param>
-        /// <param name="extensionType">拡張子</param>
-        /// <param name="fileType">ファイルのタイプ</param>
         /// <returns>ローカルファイルが存在するかどうか</returns>
-        public bool IsLocalFileExists(
-            string userId,
-            string identifier,
-            StorageDefinition.ExtensionType extensionType,
-            StorageDefinition.FileType fileType)
+        public bool IsLocalFileExists<TEnum>(TEnum identifier)
+        where TEnum : struct, Enum
         {
-            var localFilePath = _localPathProvider.GetFilePath(
-                userId: userId,
-                identifier: identifier,
-                extensionType: extensionType,
-                fileType: fileType);
+            var localFilePath = _pathProvider.GetFilePath(identifier: identifier);
             
             EnsureDirectoryExists(path: localFilePath);
             
@@ -74,22 +63,12 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         /// <summary>
         /// ローカルからテクスチャをロードする。
         /// </summary>
-        /// <param name="userId">ユーザーID</param>
         /// <param name="identifier">識別子</param>
-        /// <param name="extensionType">拡張子</param>
-        /// <param name="fileType">取得するファイルのタイプ</param>
         /// <returns>APIレスポンス(Texture2D)</returns>
-        public async UniTask<IAPIResponse<Texture2D>> LoadTextureAsync(
-            string userId,
-            string identifier,
-            StorageDefinition.ExtensionType extensionType,
-            StorageDefinition.FileType fileType)
+        public async UniTask<IAPIResponse<Texture2D>> LoadTextureAsync<TEnum>(TEnum identifier)
+            where TEnum : struct, Enum
         {
-            var localFilePath = _localPathProvider.GetFilePath(
-                userId: userId,
-                identifier: identifier,
-                extensionType: extensionType,
-                fileType: fileType);
+            var localFilePath = _pathProvider.GetFilePath(identifier: identifier);
             
             LogHelper.Debug(message: $"LoadTextureAsync: {localFilePath}");
             
@@ -134,22 +113,15 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         /// <summary>
         /// ローカルから音声をロードする。
         /// </summary>
-        /// <param name="userId">ユーザーID</param>
         /// <param name="identifier">識別子</param>
-        /// <param name="extensionType">拡張子</param>
-        /// <param name="fileType">取得するファイルのタイプ</param>
+        /// <param name="audioType">音声のタイプ</param>
         /// <returns>APIレスポンス(AudioClip)</returns>
-        public async UniTask<IAPIResponse<AudioClip>> LoadAudioAsync(
-            string userId,
-            string identifier,
-            StorageDefinition.ExtensionType extensionType,
-            StorageDefinition.FileType fileType)
+        public async UniTask<IAPIResponse<AudioClip>> LoadAudioAsync<TEnum>(
+            TEnum identifier,
+            AudioType audioType)
+        where TEnum : struct, Enum
         {
-            var localFilePath = _localPathProvider.GetFilePath(
-                userId: userId,
-                identifier: identifier,
-                extensionType: extensionType,
-                fileType: fileType);
+            var localFilePath = _pathProvider.GetFilePath(identifier: identifier);
             
             EnsureDirectoryExists(path: localFilePath);
             
@@ -163,9 +135,9 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
             
             try
             {
-                var audioType = StorageDefinition.GetAudioType(extensionType: extensionType);
-                using var www = UnityWebRequestMultimedia
-                    .GetAudioClip(uri: "file://" + localFilePath, audioType: audioType);
+                using var www = UnityWebRequestMultimedia.GetAudioClip(
+                    "file://" + localFilePath,
+                    audioType);
                 await www.SendWebRequest();
                 
                 if (www.result != UnityWebRequest.Result.Success)
@@ -178,7 +150,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
                 
                 var clip = DownloadHandlerAudioClip.GetContent(www: www);
                 
-                if (clip == null)
+                if (!clip)
                 {
                     return new APIResponse<AudioClip>(
                         status: APIStatus.Code.Error,
@@ -203,23 +175,13 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         /// <summary>
         /// ローカルからJSONデータをロードする。
         /// </summary>
-        /// <typeparam name="T">JSONデータの型</typeparam>
-        /// <param name="userId">ユーザーID</param>
-        /// <param name="identifier">識別子</param>
-        /// <param name="extensionType">拡張子</param>
-        /// <param name="fileType">取得するファイルのタイプ</param>
+        /// <typeparam name="TData">JSONデータの型</typeparam>
+        /// <typeparam name="TEnum">識別子の列挙型</typeparam>
         /// <returns>APIレスポンス(T型のデータ)</returns>
-        public async UniTask<IAPIResponse<T>> LoadJsonAsync<T>(
-            string userId,
-            string identifier,
-            StorageDefinition.ExtensionType extensionType,
-            StorageDefinition.FileType fileType)
+        public async UniTask<IAPIResponse<TData>> LoadJsonAsync<TData,TEnum>(TEnum identifier)
+            where TEnum : struct, Enum
         {
-            var localFilePath = _localPathProvider.GetFilePath(
-                userId: userId,
-                identifier: identifier,
-                extensionType: extensionType,
-                fileType: fileType);
+            var localFilePath = _pathProvider.GetFilePath(identifier: identifier);
     
             LogHelper.Debug(message: $"LoadJsonAsync: {localFilePath}");
     
@@ -227,7 +189,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
     
             if (!File.Exists(path: localFilePath))
             {
-                return new APIResponse<T>(
+                return new APIResponse<TData>(
                     status: APIStatus.Code.Error,
                     data: default,
                     errorMessage: "ファイルが見つかりませんでした。");
@@ -236,24 +198,24 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
             try
             {
                 var jsonText = await File.ReadAllTextAsync(path: localFilePath);
-                var data = JsonUtility.FromJson<T>(json: jsonText);
+                var data = JsonUtility.FromJson<TData>(json: jsonText);
         
                 if (data == null)
                 {
-                    return new APIResponse<T>(
+                    return new APIResponse<TData>(
                         status: APIStatus.Code.Error,
                         data: default,
                         errorMessage: "JSONデータの変換に失敗しました。");
                 }
         
-                return new APIResponse<T>(
+                return new APIResponse<TData>(
                     status: APIStatus.Code.Success,
                     data: data,
                     errorMessage: null);
             }
             catch (Exception e)
             {
-                return new APIResponse<T>(
+                return new APIResponse<TData>(
                     status: APIStatus.Code.Error,
                     data: default,
                     errorMessage: $"JSONファイルの読み込み中にエラーが発生しました: {e.Message}");
@@ -263,23 +225,13 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         /// <summary>
         /// ローカルからJSON配列データをロードしてリストとして取得する。
         /// </summary>
-        /// <typeparam name="T">JSONデータの型</typeparam>
-        /// <param name="userId">ユーザーID</param>
-        /// <param name="identifier">識別子</param>
-        /// <param name="extensionType">拡張子</param>
-        /// <param name="fileType">取得するファイルのタイプ</param>
+        /// <typeparam name="TData">JSONデータの型</typeparam>
+        /// <typeparam name="TEnum">識別子の列挙型</typeparam>
         /// <returns>APIレスポンス(T型のリスト)</returns>
-        public async UniTask<IAPIResponse<List<T>>> LoadJsonListAsync<T>(
-            string userId,
-            string identifier,
-            StorageDefinition.ExtensionType extensionType,
-            StorageDefinition.FileType fileType)
+        public async UniTask<IAPIResponse<List<TData>>> LoadJsonListAsync<TData,TEnum>(TEnum identifier)
+            where TEnum : struct, Enum
         {
-            var localFilePath = _localPathProvider.GetFilePath(
-                userId: userId,
-                identifier: identifier,
-                extensionType: extensionType,
-                fileType: fileType);
+            var localFilePath = _pathProvider.GetFilePath(identifier: identifier);
             
             LogHelper.Debug(message: $"LoadJsonListAsync: {localFilePath}");
             
@@ -287,7 +239,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
             
             if (!File.Exists(path: localFilePath))
             {
-                return new APIResponse<List<T>>(
+                return new APIResponse<List<TData>>(
                     status: APIStatus.Code.Error,
                     data: null,
                     errorMessage: "ファイルが見つかりませんでした。");
@@ -296,89 +248,28 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
             try
             {
                 var jsonText = await File.ReadAllTextAsync(path: localFilePath);
-                var dataList = JsonHelper.FromJsonList<T>(json: jsonText);
+                var dataList = JsonHelper.FromJsonList<TData>(json: jsonText);
                 
                 if (dataList == null)
                 {
-                    return new APIResponse<List<T>>(
+                    return new APIResponse<List<TData>>(
                         status: APIStatus.Code.Error,
                         data: null,
                         errorMessage: "JSONデータの変換に失敗しました。");
                 }
                 
-                return new APIResponse<List<T>>(
+                return new APIResponse<List<TData>>(
                     status: APIStatus.Code.Success,
                     data: dataList,
                     errorMessage: null);
             }
             catch (Exception e)
             {
-                return new APIResponse<List<T>>(
+                return new APIResponse<List<TData>>(
                     status: APIStatus.Code.Error,
                     data: null,
                     errorMessage: $"JSONファイルの読み込み中にエラーが発生しました: {e.Message}");
             }
         }
-
-        /// <summary>
-        /// ローカルからJSON配列データをロードして配列として取得する。
-        /// </summary>
-        /// <typeparam name="T">JSONデータの型</typeparam>
-        /// <param name="userId">ユーザーID</param>
-        /// <param name="identifier">識別子</param>
-        /// <param name="extensionType">拡張子</param>
-        /// <param name="fileType">取得するファイルのタイプ</param>
-        /// <returns>APIレスポンス(T型の配列)</returns>
-        public async UniTask<IAPIResponse<T[]>> LoadJsonArrayAsync<T>(
-            string userId,
-            string identifier,
-            StorageDefinition.ExtensionType extensionType,
-            StorageDefinition.FileType fileType)
-        {
-            var localFilePath = _localPathProvider.GetFilePath(
-                userId: userId,
-                identifier: identifier,
-                extensionType: extensionType,
-                fileType: fileType);
-            
-            LogHelper.Debug(message: $"LoadJsonArrayAsync: {localFilePath}");
-            
-            EnsureDirectoryExists(path: localFilePath);
-            
-            if (!File.Exists(path: localFilePath))
-            {
-                return new APIResponse<T[]>(
-                    status: APIStatus.Code.Error,
-                    data: null,
-                    errorMessage: "ファイルが見つかりませんでした。");
-            }
-            
-            try
-            {
-                var jsonText = await File.ReadAllTextAsync(path: localFilePath);
-                var dataArray = JsonHelper.FromJsonArray<T>(json: jsonText);
-                
-                if (dataArray == null)
-                {
-                    return new APIResponse<T[]>(
-                        status: APIStatus.Code.Error,
-                        data: null,
-                        errorMessage: "JSONデータの変換に失敗しました。");
-                }
-                
-                return new APIResponse<T[]>(
-                    status: APIStatus.Code.Success,
-                    data: dataArray,
-                    errorMessage: null);
-            }
-            catch (Exception e)
-            {
-                return new APIResponse<T[]>(
-                    status: APIStatus.Code.Error,
-                    data: null,
-                    errorMessage: $"JSONファイルの読み込み中にエラーが発生しました: {e.Message}");
-            }
-        }
-
     }
 }
