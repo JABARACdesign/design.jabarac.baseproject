@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JABARACdesign.Base.Infrastructure.Network
+namespace JABARACdesign.Base.Application.Interface
 {
     public interface IPathProvider
     {
