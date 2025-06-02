@@ -53,7 +53,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         public bool IsLocalFileExists<TEnum>(TEnum identifier)
         where TEnum : struct, Enum
         {
-            var localFilePath = _pathProvider.GetFilePath(identifier: identifier);
+            var localFilePath = _pathProvider.GetPath(identifier: identifier);
             
             EnsureDirectoryExists(path: localFilePath);
             
@@ -68,7 +68,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         public async UniTask<IAPIResponse<Texture2D>> LoadTextureAsync<TEnum>(TEnum identifier)
             where TEnum : struct, Enum
         {
-            var localFilePath = _pathProvider.GetFilePath(identifier: identifier);
+            var localFilePath = _pathProvider.GetPath(identifier: identifier);
             
             LogHelper.Debug(message: $"LoadTextureAsync: {localFilePath}");
             
@@ -121,7 +121,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
             AudioType audioType)
         where TEnum : struct, Enum
         {
-            var localFilePath = _pathProvider.GetFilePath(identifier: identifier);
+            var localFilePath = _pathProvider.GetPath(identifier: identifier);
             
             EnsureDirectoryExists(path: localFilePath);
             
@@ -181,7 +181,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         public async UniTask<IAPIResponse<TData>> LoadJsonAsync<TData,TEnum>(TEnum identifier)
             where TEnum : struct, Enum
         {
-            var localFilePath = _pathProvider.GetFilePath(identifier: identifier);
+            var localFilePath = _pathProvider.GetPath(identifier: identifier);
     
             LogHelper.Debug(message: $"LoadJsonAsync: {localFilePath}");
     
@@ -231,7 +231,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         public async UniTask<IAPIResponse<List<TData>>> LoadJsonListAsync<TData,TEnum>(TEnum identifier)
             where TEnum : struct, Enum
         {
-            var localFilePath = _pathProvider.GetFilePath(identifier: identifier);
+            var localFilePath = _pathProvider.GetPath(identifier: identifier);
             
             LogHelper.Debug(message: $"LoadJsonListAsync: {localFilePath}");
             
