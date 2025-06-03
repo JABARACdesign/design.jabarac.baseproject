@@ -9,6 +9,7 @@ using JABARACdesign.Base.Infrastructure.Network.API;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using Unity.Plastic.Newtonsoft.Json;
 
 namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
 {
@@ -269,6 +270,40 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
                     status: APIStatus.Code.Error,
                     data: null,
                     errorMessage: $"JSONファイルの読み込み中にエラーが発生しました: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// JSONデータをローカルに保存する。
+        /// </summary>
+        /// <param name="data">データ</param>
+        /// <param name="identifier">識別子</param>
+        /// <typeparam name="TData">保存するデータの型</typeparam>
+        /// <typeparam name="TEnum">識別子の型</typeparam>
+        /// <returns>APIレスポンス</returns>
+        public async UniTask<IAPIResponse> SaveJsonAsync<TData,TEnum>(
+            TData data,
+            TEnum identifier)
+        where TEnum : struct, Enum
+        {
+            try
+            {
+                var localFilePath = _pathProvider.GetPath(identifier: identifier);
+                
+                LogHelper.Debug(message: $"SaveJsonAsync: {localFilePath}");
+                
+                EnsureDirectoryExists(path: localFilePath);
+
+                var jsonText = JsonUtility.ToJson(obj: data, prettyPrint: true);
+                await File.WriteAllTextAsync(path: localFilePath, contents: jsonText);
+                
+                return new APIResponse(status: APIStatus.Code.Success, errorMessage: null);
+            }
+            catch (Exception e)
+            {
+                return new APIResponse(
+                    status: APIStatus.Code.Error,
+                    errorMessage: $"JSONファイルの保存中にエラーが発生しました: {e.Message}");
             }
         }
     }
