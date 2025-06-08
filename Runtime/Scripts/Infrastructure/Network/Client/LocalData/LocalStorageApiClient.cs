@@ -9,7 +9,6 @@ using JABARACdesign.Base.Infrastructure.Network.API;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
-using Unity.Plastic.Newtonsoft.Json;
 
 namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
 {
@@ -47,6 +46,21 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         }
         
         /// <summary>
+        /// PersistentDataPathを取得する。
+        /// </summary>
+        /// <param name="identifier">識別子</param>
+        /// <typeparam name="TEnum">識別子の型</typeparam>
+        /// <returns>PersistentDataPath</returns>
+        private string GetPersistentDataPath<TEnum>(TEnum identifier)
+            where TEnum : struct, Enum
+        {
+            var localFilePath = _pathProvider.GetPath(identifier: identifier);
+            var persistentDataPath = UnityEngine.Application.persistentDataPath;
+            var fullPath = Path.Combine(persistentDataPath, localFilePath);
+            return fullPath;
+        }
+        
+        /// <summary>
         /// ローカルファイルが存在するかどうかを返す。
         /// </summary>
         /// <param name="identifier">識別子</param>
@@ -54,7 +68,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         public bool IsLocalFileExists<TEnum>(TEnum identifier)
         where TEnum : struct, Enum
         {
-            var localFilePath = _pathProvider.GetPath(identifier: identifier);
+            var localFilePath = GetPersistentDataPath(identifier: identifier);
             
             EnsureDirectoryExists(path: localFilePath);
             
@@ -69,7 +83,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         public async UniTask<IAPIResponse<Texture2D>> LoadTextureAsync<TEnum>(TEnum identifier)
             where TEnum : struct, Enum
         {
-            var localFilePath = _pathProvider.GetPath(identifier: identifier);
+            var localFilePath = GetPersistentDataPath(identifier: identifier);
             
             LogHelper.Debug(message: $"LoadTextureAsync: {localFilePath}");
             
@@ -122,7 +136,8 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
             AudioType audioType)
         where TEnum : struct, Enum
         {
-            var localFilePath = _pathProvider.GetPath(identifier: identifier);
+            var localFilePath = 
+                GetPersistentDataPath(identifier: identifier);
             
             EnsureDirectoryExists(path: localFilePath);
             
@@ -172,7 +187,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
                     errorMessage: $"ファイルの読み込み中にエラーが発生しました: {e.Message}");
             }
         }
-        
+
         /// <summary>
         /// ローカルからJSONデータをロードする。
         /// </summary>
@@ -182,7 +197,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         public async UniTask<IAPIResponse<TData>> LoadJsonAsync<TData,TEnum>(TEnum identifier)
             where TEnum : struct, Enum
         {
-            var localFilePath = _pathProvider.GetPath(identifier: identifier);
+            var localFilePath = GetPersistentDataPath(identifier: identifier);
     
             LogHelper.Debug(message: $"LoadJsonAsync: {localFilePath}");
     
@@ -232,7 +247,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         public async UniTask<IAPIResponse<List<TData>>> LoadJsonListAsync<TData,TEnum>(TEnum identifier)
             where TEnum : struct, Enum
         {
-            var localFilePath = _pathProvider.GetPath(identifier: identifier);
+            var localFilePath = GetPersistentDataPath(identifier: identifier);
             
             LogHelper.Debug(message: $"LoadJsonListAsync: {localFilePath}");
             
@@ -288,7 +303,7 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
         {
             try
             {
-                var localFilePath = _pathProvider.GetPath(identifier: identifier);
+                var localFilePath = GetPersistentDataPath(identifier: identifier);
                 
                 LogHelper.Debug(message: $"SaveJsonAsync: {localFilePath}");
                 
