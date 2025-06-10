@@ -306,5 +306,39 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client.LocalData
                     errorMessage: $"JSONファイルの保存中にエラーが発生しました: {e.Message}");
             }
         }
+
+        /// <summary>
+        /// リストデータをJSON形式でローカルに保存する。
+        /// </summary>
+        /// <param name="dataList">データのリスト</param>
+        /// <param name="identifier">識別子</param>
+        /// <typeparam name="TData">保存するデータの型</typeparam>
+        /// <typeparam name="TEnum">識別子の型</typeparam>
+        /// <returns>APIレスポンス</returns>
+        public async UniTask<IAPIResponse> SaveJsonListAsync<TData,TEnum>(
+            List<TData> dataList,
+            TEnum identifier)
+        where TEnum : struct, Enum
+        {
+            try
+            {
+                var localFilePath = _pathProvider.GetLocalPath(identifier: identifier);
+                
+                LogHelper.Debug(message: $"SaveJsonListAsync: {localFilePath}");
+                
+                EnsureDirectoryExists(path: localFilePath);
+
+                var jsonText = JsonHelper.ToJsonList(list: dataList);
+                await File.WriteAllTextAsync(path: localFilePath, contents: jsonText);
+                
+                return new APIResponse(status: APIStatus.Code.Success, errorMessage: null);
+            }
+            catch (Exception e)
+            {
+                return new APIResponse(
+                    status: APIStatus.Code.Error,
+                    errorMessage: $"JSONリストファイルの保存中にエラーが発生しました: {e.Message}");
+            }
+        }
     }
 }

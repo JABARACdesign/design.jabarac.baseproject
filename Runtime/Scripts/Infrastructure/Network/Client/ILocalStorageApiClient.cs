@@ -70,5 +70,18 @@ namespace JABARACdesign.Base.Infrastructure.Network.Client
             TData data,
             TEnum identifier)
             where TEnum : struct, Enum;
+
+        /// <summary>
+        /// リストデータをJSON形式でローカルに保存する。
+        /// </summary>
+        /// <param name="dataList">データのリスト</param>
+        /// <param name="identifier">識別子</param>
+        /// <typeparam name="TData">保存するデータの型</typeparam>
+        /// <typeparam name="TEnum">識別子の型</typeparam>
+        /// <returns>APIレスポンス</returns>
+        UniTask<IAPIResponse> SaveJsonListAsync<TData, TEnum>(
+            List<TData> dataList,
+            TEnum identifier)
+            where TEnum : struct, Enum;
     }
 }
