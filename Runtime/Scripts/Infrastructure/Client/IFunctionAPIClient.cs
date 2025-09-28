@@ -8,7 +8,7 @@ namespace JABARACdesign.Base.Infrastructure.Client
     /// <summary>
     /// Function（サーバーレス関数）APIクライアントのインターフェース。
     /// </summary>
-    public interface IFunctionApiClient
+    public interface IFunctionAPIClient
     {
         /// <summary>
         /// データを取得するFunction呼び出し
