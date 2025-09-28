@@ -5,7 +5,7 @@ using JABARACdesign.Base.Application.Interface;
 
 namespace JABARACdesign.Base.Infrastructure.Client
 {
-    public interface IMstDataApiClient
+    public interface IMstDataAPIClient
     {
         /// <summary>
         /// 指定したクラスに対応するマスターデータをリストですべて取得する。

@@ -64,7 +64,7 @@ namespace JABARACdesign.Base.Infrastructure.Repository
                 cancellationToken: cancellationToken);
             
             return response
-                .ToResult<CreateAnonymousUserResponseDto, CreateAnonymousUserResult>();
+                .ToResult<CreateAnonymousUserResponseDTO, CreateAnonymousUserResult>();
         }
         
         /// <summary>
@@ -89,7 +89,7 @@ namespace JABARACdesign.Base.Infrastructure.Repository
                 cancellationToken: cancellationToken);
             
             return response
-                .ToResult<CreateUserWithEmailAndPasswordResponseDto, CreateUserWithEmailAndPasswordResult>();
+                .ToResult<CreateUserWithEmailAndPasswordResponseDTO, CreateUserWithEmailAndPasswordResult>();
         }
         
         /// <summary>
@@ -99,7 +99,7 @@ namespace JABARACdesign.Base.Infrastructure.Repository
         {
             var response = _authenticationClient.GetIsLoggedIn();
             
-            return response.ToResult<GetIsLoggedInDto, GetIsLoggedInResult>();
+            return response.ToResult<GetIsLoggedInDTO, GetIsLoggedInResult>();
         }
         
         /// <summary>
@@ -119,7 +119,7 @@ namespace JABARACdesign.Base.Infrastructure.Repository
                 password: password,
                 cancellationToken: cancellationToken);
             
-            return response.ToResult<LogInWithEmailAndPasswordResponseDto, LogInWithEmailAndPasswordResult>();
+            return response.ToResult<LogInWithEmailAndPasswordResponseDTO, LogInWithEmailAndPasswordResult>();
         }
         
         /// <summary>

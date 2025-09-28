@@ -1,12 +1,12 @@
-﻿using JABARACdesign.Base.Application.Result.UpgradeAnonymousAccount;
+﻿using JABARACdesign.Base.Application.Result.CreateUserWithEmailAndPassword;
 using JABARACdesign.Base.Domain.Interface;
 
-namespace JABARACdesign.Base.Infrastructure.API.UpgradeAnonymousAccount
+namespace JABARACdesign.Base.Infrastructure.API.CreateUserWithEmailAndPassword
 {
     /// <summary>
-    /// 匿名アカウントをアップグレードした際のレスポンスDTO。
+    /// メールアドレスとパスワードでユーザーを作成するAPIのレスポンスDTO
     /// </summary>
-    public class UpgradeAnonymousAccountResponseDto : IDomainDataDto<UpgradeAnonymousAccountResult>
+    public class CreateUserWithEmailAndPasswordResponseDTO : IAPIResponseDTO<CreateUserWithEmailAndPasswordResult>
     {
         /// <summary>
         /// ユーザーID
@@ -24,12 +24,15 @@ namespace JABARACdesign.Base.Infrastructure.API.UpgradeAnonymousAccount
         public string DisplayName { get; }
         
         /// <summary>
-        /// コンストラクタ。
+        /// コンストラクタ
         /// </summary>
         /// <param name="userId">ユーザーID</param>
         /// <param name="email">メールアドレス</param>
         /// <param name="displayName">表示名</param>
-        public UpgradeAnonymousAccountResponseDto(string userId, string email, string displayName)
+        public CreateUserWithEmailAndPasswordResponseDTO(
+            string userId,
+            string email,
+            string displayName)
         {
             UserId = userId;
             Email = email;
@@ -40,9 +43,9 @@ namespace JABARACdesign.Base.Infrastructure.API.UpgradeAnonymousAccount
         /// 結果クラスに変換する。
         /// </summary>
         /// <returns>結果クラス</returns>
-        public UpgradeAnonymousAccountResult ToResult()
+        public CreateUserWithEmailAndPasswordResult ToResult()
         {
-            return new UpgradeAnonymousAccountResult(
+            return new CreateUserWithEmailAndPasswordResult(
                 userId: UserId,
                 email: Email,
                 displayName: DisplayName);

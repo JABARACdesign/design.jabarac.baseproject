@@ -7,7 +7,7 @@ namespace JABARACdesign.Base.Infrastructure.Client
     /// <summary>
     /// ローカルデータAPIクライアント
     /// </summary>
-    public interface ILocalDataApiClient
+    public interface ILocalDataAPIClient
     {
         /// <summary>
         /// 指定した型に対応する単一のデータを非同期で取得する

@@ -18,7 +18,7 @@ namespace JABARACdesign.Base.Infrastructure.Extension
         /// </summary>
         public static IAPIResponse<TResult> ToResult<TDto, TResult>(
             this IAPIResponse<TDto> response)
-            where TDto : IDomainDataDto<TResult>
+            where TDto : IAPIResponseDTO<TResult>
         {
             if (response.Status != APIDefinition.Code.Success)
             {
@@ -52,7 +52,7 @@ namespace JABARACdesign.Base.Infrastructure.Extension
         /// </summary>
         public static IAPIResponse<List<TResult>> ToResultList<TDto, TResult>(
             this IAPIResponse<List<TDto>> response)
-            where TDto : IDomainDataDto<TResult>
+            where TDto : IAPIResponseDTO<TResult>
         {
             if (response.Status != APIDefinition.Code.Success)
             {

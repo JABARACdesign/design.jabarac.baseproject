@@ -1,6 +1,6 @@
 ﻿namespace JABARACdesign.Base.Domain.Interface
 {
-    public interface IDomainDataDto<out TEntity>
+    public interface IAPIResponseDTO<out TEntity>
     {
         /// <summary>
         /// 結果クラスに変換する。

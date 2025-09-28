@@ -6,7 +6,7 @@ namespace JABARACdesign.Base.Infrastructure.API.LogInWithEmailAndPassword
     /// <summary>
     /// メールアドレスとパスワードでログインのレスポンスDTO。
     /// </summary>
-    public class LogInWithEmailAndPasswordResponseDto : IDomainDataDto<LogInWithEmailAndPasswordResult>
+    public class LogInWithEmailAndPasswordResponseDTO : IAPIResponseDTO<LogInWithEmailAndPasswordResult>
     {
         /// <summary>
         /// ユーザーID
@@ -29,7 +29,7 @@ namespace JABARACdesign.Base.Infrastructure.API.LogInWithEmailAndPassword
         /// <param name="userId">ユーザーID</param>
         /// <param name="email">メールアドレス</param>
         /// <param name="displayName">表示名</param>
-        public LogInWithEmailAndPasswordResponseDto(
+        public LogInWithEmailAndPasswordResponseDTO(
             string userId,
             string email,
             string displayName)

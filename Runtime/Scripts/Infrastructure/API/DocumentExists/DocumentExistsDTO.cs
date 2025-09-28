@@ -6,7 +6,7 @@ namespace JABARACdesign.Base.Infrastructure.API.DocumentExists
     /// <summary>
     /// ドキュメントが存在するかどうかを確認するためのDTO。
     /// </summary>
-    public class DocumentExistsDto : IDomainDataDto<DocumentExistsResult>
+    public class DocumentExistsDTO : IAPIResponseDTO<DocumentExistsResult>
     {
         public bool IsExists { get; set; }
         
@@ -14,7 +14,7 @@ namespace JABARACdesign.Base.Infrastructure.API.DocumentExists
         /// コンストラクタ。
         /// </summary>
         /// <param name="isExists">存在するかどうか</param>
-        public DocumentExistsDto(bool isExists)
+        public DocumentExistsDTO(bool isExists)
         {
             IsExists = isExists;
         }

@@ -6,7 +6,7 @@ namespace JABARACdesign.Base.Infrastructure.API.CreateAnonymousUser
     /// <summary>
     /// 匿名認証でユーザーを作成するAPIのレスポンスDTO
     /// </summary>
-    public class CreateAnonymousUserResponseDto : IDomainDataDto<CreateAnonymousUserResult>
+    public class CreateAnonymousUserResponseDTO : IAPIResponseDTO<CreateAnonymousUserResult>
     {
         public string UserId { get; }
         
@@ -17,7 +17,7 @@ namespace JABARACdesign.Base.Infrastructure.API.CreateAnonymousUser
         /// </summary>
         /// <param name="userId">ユーザーID</param>
         /// <param name="displayName">表示名</param>
-        public CreateAnonymousUserResponseDto(
+        public CreateAnonymousUserResponseDTO(
             string userId,
             string displayName)
         {

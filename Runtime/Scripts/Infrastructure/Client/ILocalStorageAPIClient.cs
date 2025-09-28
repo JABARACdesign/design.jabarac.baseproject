@@ -9,7 +9,7 @@ namespace JABARACdesign.Base.Infrastructure.Client
     /// <summary>
     /// ローカルストレージのAPIクライアントインターフェース。
     /// </summary>
-    public interface ILocalStorageApiClient
+    public interface ILocalStorageAPIClient
     {
         /// <summary>
         /// ローカルファイルが存在するかどうかを返す。

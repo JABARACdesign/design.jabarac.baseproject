@@ -6,11 +6,11 @@ namespace JABARACdesign.Base.Infrastructure.API.EmailExists
     /// <summary>
     /// Emailの存在確認のレスポンスDTO
     /// </summary>
-    public class EmailExistsResponseDto : IDomainDataDto<EmailExistsResult>
+    public class EmailExistsResponseDTO : IAPIResponseDTO<EmailExistsResult>
     {
         public bool IsExists { get; private set; }
         
-        public EmailExistsResponseDto(bool isExists)
+        public EmailExistsResponseDTO(bool isExists)
         {
             IsExists = isExists;
         }

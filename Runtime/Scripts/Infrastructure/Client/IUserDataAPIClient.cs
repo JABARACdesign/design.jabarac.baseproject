@@ -7,7 +7,7 @@ namespace JABARACdesign.Base.Infrastructure.Client
     /// <summary>
     /// ユーザーデータの操作クライアントインターフェース
     /// </summary>
-    public interface IUserDataApiClient
+    public interface IUserDataAPIClient
     {
         public UniTask<IAPIResponse<TData>> GetAsync<TData>(string identifier = default);
         
@@ -17,6 +17,6 @@ namespace JABARACdesign.Base.Infrastructure.Client
         
         public UniTask<IAPIResponse> DeleteAsync<TData>(string identifier);
         
-        public UniTask<IAPIResponse<DocumentExistsDto>> ExistsAsync<TData>(string identifier = default);
+        public UniTask<IAPIResponse<DocumentExistsDTO>> ExistsAsync<TData>(string identifier = default);
     }
 }

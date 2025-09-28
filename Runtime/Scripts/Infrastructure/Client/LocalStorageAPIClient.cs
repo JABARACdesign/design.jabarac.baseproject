@@ -15,7 +15,7 @@ namespace JABARACdesign.Base.Infrastructure.Client
     /// <summary>
     /// ローカルストレージのAPIクライアントクラス。
     /// </summary>
-    public class LocalStorageApiClient : ILocalStorageApiClient
+    public class LocalStorageAPIClient : ILocalStorageAPIClient
     {
         private const int DEFAULT_TEXTURE_SIZE = 2;
         
@@ -25,7 +25,7 @@ namespace JABARACdesign.Base.Infrastructure.Client
         /// コンストラクタ。
         /// </summary>
         /// <param name="pathProvider">ローカルパスプロパイダ</param>
-        public LocalStorageApiClient(IPathProvider pathProvider)
+        public LocalStorageAPIClient(IPathProvider pathProvider)
         {
             _pathProvider = pathProvider;
         }

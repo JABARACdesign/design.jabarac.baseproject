@@ -6,7 +6,7 @@ namespace JABARACdesign.Base.Infrastructure.API.GetIsLoggedIn
     /// <summary>
     /// ログインしているかどうかのレスポンスDTO
     /// </summary>
-    public class GetIsLoggedInDto : IDomainDataDto<GetIsLoggedInResult>
+    public class GetIsLoggedInDTO : IAPIResponseDTO<GetIsLoggedInResult>
     {
         /// <summary>
         /// ログインしているかどうか
@@ -23,7 +23,7 @@ namespace JABARACdesign.Base.Infrastructure.API.GetIsLoggedIn
         /// </summary>
         public string DisplayName { get; }
         
-        public GetIsLoggedInDto(
+        public GetIsLoggedInDTO(
             bool isLoggedIn,
             string userId,
             string displayName)
