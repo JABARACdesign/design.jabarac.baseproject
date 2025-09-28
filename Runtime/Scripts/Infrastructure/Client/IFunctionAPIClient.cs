@@ -30,7 +30,7 @@ namespace JABARACdesign.Base.Infrastructure.Client
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>APIレスポンス</returns>
         UniTask<IAPIResponse<TResponseData>> SendAsync<TDto, TResponseData>(
-            IApiRequest<TDto> request,
+            IAPIRequest<TDto> request,
             CancellationToken cancellationToken = default)
             where TDto : IQueryParamConvertible;
             
@@ -52,7 +52,7 @@ namespace JABARACdesign.Base.Infrastructure.Client
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>APIレスポンス</returns>
         UniTask<IAPIResponse> SendAsync<TDto>(
-            IApiRequest<TDto> request,
+            IAPIRequest<TDto> request,
             CancellationToken cancellationToken = default)
             where TDto : IQueryParamConvertible;
     }

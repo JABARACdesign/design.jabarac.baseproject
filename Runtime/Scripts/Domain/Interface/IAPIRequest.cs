@@ -16,7 +16,7 @@ namespace JABARACdesign.Base.Domain.Interface
     /// APIリクエストインターフェース(リクエストDTO付き)。
     /// </summary>
     /// <typeparam name="T">リクエストDTO</typeparam>
-    public interface IApiRequest<T> : IAPIRequest
+    public interface IAPIRequest<T> : IAPIRequest
     {
         T Dto { get; }
     }
