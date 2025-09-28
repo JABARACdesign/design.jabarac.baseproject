@@ -3,9 +3,9 @@
     public interface IDomainDataDto<out TEntity>
     {
         /// <summary>
-        /// エンティティに変換する。
+        /// 結果クラスに変換する。
         /// </summary>
-        /// <returns>エンティティ</returns>
-        TEntity ToEntity();
+        /// <returns>結果クラス</returns>
+        TEntity ToResult();
     }
 }

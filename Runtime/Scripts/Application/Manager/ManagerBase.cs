@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using JABARACdesign.Base.Application.Interface;
-using JABARACdesign.Base.Domain.Entity.API;
+using JABARACdesign.Base.Domain.Definition;
 using JABARACdesign.Base.Domain.Entity.Helper;
 
 namespace JABARACdesign.Base.Application.Manager
@@ -17,10 +17,10 @@ namespace JABARACdesign.Base.Application.Manager
         {
             switch (response.Status)
             {
-                case APIStatus.Code.Success:
+                case APIDefinition.Code.Success:
                     return response.Data;
-                
-                case APIStatus.Code.Error:
+
+                case APIDefinition.Code.Error:
                     var message = response.ErrorMessage;
                     LogHelper.Warning(message: $"APIの実行においてエラーが発生しました。{message}");
                     await UniTask.CompletedTask;
@@ -39,10 +39,10 @@ namespace JABARACdesign.Base.Application.Manager
         {
             switch (response.Status)
             {
-                case APIStatus.Code.Success:
+                case APIDefinition.Code.Success:
                     return;
                 
-                case APIStatus.Code.Error:
+                case APIDefinition.Code.Error:
                     var message = response.ErrorMessage;
                     LogHelper.Warning(message: $"APIの実行においてエラーが発生しました。{message}");
                     await UniTask.CompletedTask;

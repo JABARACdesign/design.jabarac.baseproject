@@ -2,12 +2,20 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using JABARACdesign.Base.Application.Interface;
-using JABARACdesign.Base.Domain.Entity.API;
+using JABARACdesign.Base.Application.Result.CreateAnonymousUser;
+using JABARACdesign.Base.Application.Result.CreateUserWithEmailAndPassword;
+using JABARACdesign.Base.Application.Result.EmailExists;
+using JABARACdesign.Base.Application.Result.GetIsLoggedIn;
+using JABARACdesign.Base.Application.Result.LogInWithEmailAndPassword;
+using JABARACdesign.Base.Domain.Definition;
 using JABARACdesign.Base.Domain.Entity.Helper;
-using JABARACdesign.Base.Infrastructure.Dto.API;
+using JABARACdesign.Base.Infrastructure.API;
+using JABARACdesign.Base.Infrastructure.API.CreateAnonymousUser;
+using JABARACdesign.Base.Infrastructure.API.CreateUserWithEmailAndPassword;
+using JABARACdesign.Base.Infrastructure.API.GetIsLoggedIn;
+using JABARACdesign.Base.Infrastructure.API.LogInWithEmailAndPassword;
+using JABARACdesign.Base.Infrastructure.Client;
 using JABARACdesign.Base.Infrastructure.Extension;
-using JABARACdesign.Base.Infrastructure.Network.API;
-using JABARACdesign.Base.Infrastructure.Network.Client;
 using VContainer;
 
 namespace JABARACdesign.Base.Infrastructure.Repository
@@ -33,7 +41,7 @@ namespace JABARACdesign.Base.Infrastructure.Repository
         /// <param name="email">メールアドレス</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>レスポンス</returns>
-        public async UniTask<IAPIResponse<EmailExistsResponse>> GetIsEmailExistsAsync(
+        public async UniTask<IAPIResponse<EmailExistsResult>> GetIsEmailExistsAsync(
             string email,
             CancellationToken cancellationToken = default)
         {
@@ -49,14 +57,14 @@ namespace JABARACdesign.Base.Infrastructure.Repository
         /// </summary>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>レスポンス</returns>
-        public async UniTask<IAPIResponse<CreateAnonymousUserResponse>> CreateAnonymousUserAsync(
+        public async UniTask<IAPIResponse<CreateAnonymousUserResult>> CreateAnonymousUserAsync(
             CancellationToken cancellationToken = default)
         {
             var response = await _authenticationClient.CreateAnonymousUserAsync(
                 cancellationToken: cancellationToken);
             
             return response
-                .ToEntityResponse<CreateAnonymousUserResponseDto, CreateAnonymousUserResponse>();
+                .ToResult<CreateAnonymousUserResponseDto, CreateAnonymousUserResult>();
         }
         
         /// <summary>
@@ -67,7 +75,7 @@ namespace JABARACdesign.Base.Infrastructure.Repository
         /// <param name="displayName">表示名</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>レスポンス</returns>
-        public async UniTask<IAPIResponse<CreateUserWithEmailAndPasswordResponse>>
+        public async UniTask<IAPIResponse<CreateUserWithEmailAndPasswordResult>>
             CreateUserWithEmailAndPasswordAsync(
                 string email,
                 string password,
@@ -81,17 +89,17 @@ namespace JABARACdesign.Base.Infrastructure.Repository
                 cancellationToken: cancellationToken);
             
             return response
-                .ToEntityResponse<CreateUserWithEmailAndPasswordResponseDto, CreateUserWithEmailAndPasswordResponse>();
+                .ToResult<CreateUserWithEmailAndPasswordResponseDto, CreateUserWithEmailAndPasswordResult>();
         }
         
         /// <summary>
         /// ログイン状態かどうかを判定する。
         /// </summary>
-        public IAPIResponse<GetIsLoggedIn> GetIsLoggedIn()
+        public IAPIResponse<GetIsLoggedInResult> GetIsLoggedIn()
         {
             var response = _authenticationClient.GetIsLoggedIn();
             
-            return response.ToEntityResponse<GetIsLoggedInDto, GetIsLoggedIn>();
+            return response.ToResult<GetIsLoggedInDto, GetIsLoggedInResult>();
         }
         
         /// <summary>
@@ -101,7 +109,7 @@ namespace JABARACdesign.Base.Infrastructure.Repository
         /// <param name="password">パスワード</param>
         /// <param name="cancellationToken">キャンセルトークン</param>
         /// <returns>レスポンス</returns>
-        public async UniTask<IAPIResponse<LogInWithEmailAndPasswordResponse>> LogInWithEmailAndPasswordAsync(
+        public async UniTask<IAPIResponse<LogInWithEmailAndPasswordResult>> LogInWithEmailAndPasswordAsync(
             string email,
             string password,
             CancellationToken cancellationToken = default)
@@ -111,7 +119,7 @@ namespace JABARACdesign.Base.Infrastructure.Repository
                 password: password,
                 cancellationToken: cancellationToken);
             
-            return response.ToEntityResponse<LogInWithEmailAndPasswordResponseDto, LogInWithEmailAndPasswordResponse>();
+            return response.ToResult<LogInWithEmailAndPasswordResponseDto, LogInWithEmailAndPasswordResult>();
         }
         
         /// <summary>
@@ -133,15 +141,15 @@ namespace JABARACdesign.Base.Infrastructure.Repository
                 var response = await _authenticationClient.UpgradeAnonymousAccountAsync(
                     email, password, displayName, cancellationToken);
                 
-                if (response.Status == APIStatus.Code.Success)
+                if (response.Status == APIDefinition.Code.Success)
                 {
                     return new APIResponse(
-                        status: APIStatus.Code.Success);
+                        status: APIDefinition.Code.Success);
                 }
                 else
                 {
                     return new APIResponse(
-                        status: APIStatus.Code.Error,
+                        status: APIDefinition.Code.Error,
                         errorMessage: response.ErrorMessage);
                 }
             }
@@ -150,7 +158,7 @@ namespace JABARACdesign.Base.Infrastructure.Repository
                 var errorMessage = $"アカウントアップグレード中に例外が発生しました: {ex.Message}";
                 LogHelper.Error(errorMessage);
                 return new APIResponse(
-                    status: APIStatus.Code.Error,
+                    status: APIDefinition.Code.Error,
                     errorMessage: errorMessage);
             }
         }

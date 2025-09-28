@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JABARACdesign.Base.Application.Interface;
-using JABARACdesign.Base.Domain.Entity;
-using JABARACdesign.Base.Domain.Entity.API;
+using JABARACdesign.Base.Domain.Definition;
 using JABARACdesign.Base.Domain.Interface;
-using JABARACdesign.Base.Infrastructure.Network.API;
+using JABARACdesign.Base.Infrastructure.API;
 
 namespace JABARACdesign.Base.Infrastructure.Extension
 {
@@ -15,16 +14,15 @@ namespace JABARACdesign.Base.Infrastructure.Extension
     public static class APIResponseExtensions
     {
         /// <summary>
-        /// DTOからEntityへの変換を行う
+        /// DTOから結果への変換を行う
         /// </summary>
-        public static IAPIResponse<TEntity> ToEntityResponse<TDto, TEntity>(
+        public static IAPIResponse<TResult> ToResult<TDto, TResult>(
             this IAPIResponse<TDto> response)
-            where TDto : IDomainDataDto<TEntity>
-            where TEntity : IDomainData
+            where TDto : IDomainDataDto<TResult>
         {
-            if (response.Status != APIStatus.Code.Success)
+            if (response.Status != APIDefinition.Code.Success)
             {
-                return new APIResponse<TEntity>(
+                return new APIResponse<TResult>(
                     status: response.Status,
                     data: default,
                     errorMessage: response.ErrorMessage
@@ -33,18 +31,18 @@ namespace JABARACdesign.Base.Infrastructure.Extension
             
             try
             {
-                return new APIResponse<TEntity>(
-                    status: APIStatus.Code.Success,
-                    data: response.Data.ToEntity(),
+                return new APIResponse<TResult>(
+                    status: APIDefinition.Code.Success,
+                    data: response.Data.ToResult(),
                     errorMessage: null
                 );
             }
             catch (Exception ex)
             {
-                return new APIResponse<TEntity>(
-                    status: APIStatus.Code.Error,
+                return new APIResponse<TResult>(
+                    status: APIDefinition.Code.Error,
                     data: default,
-                    errorMessage: $"エンティティへの変換に失敗しました: {ex.Message}"
+                    errorMessage: $"結果への変換に失敗しました: {ex.Message}"
                 );
             }
         }
@@ -52,14 +50,13 @@ namespace JABARACdesign.Base.Infrastructure.Extension
         /// <summary>
         /// DTOリストからEntityリストへの変換を行う
         /// </summary>
-        public static IAPIResponse<List<TEntity>> ToEntityListResponse<TDto, TEntity>(
+        public static IAPIResponse<List<TResult>> ToResultList<TDto, TResult>(
             this IAPIResponse<List<TDto>> response)
-            where TDto : IDomainDataDto<TEntity>
-            where TEntity : IDomainData
+            where TDto : IDomainDataDto<TResult>
         {
-            if (response.Status != APIStatus.Code.Success)
+            if (response.Status != APIDefinition.Code.Success)
             {
-                return new APIResponse<List<TEntity>>(
+                return new APIResponse<List<TResult>>(
                     status: response.Status,
                     data: default,
                     errorMessage: response.ErrorMessage
@@ -68,19 +65,19 @@ namespace JABARACdesign.Base.Infrastructure.Extension
             
             try
             {
-                var entities = response.Data.Select(dto => dto.ToEntity()).ToList();
-                return new APIResponse<List<TEntity>>(
-                    status: APIStatus.Code.Success,
+                var entities = response.Data.Select(dto => dto.ToResult()).ToList();
+                return new APIResponse<List<TResult>>(
+                    status: APIDefinition.Code.Success,
                     data: entities,
                     errorMessage: null
                 );
             }
             catch (Exception ex)
             {
-                return new APIResponse<List<TEntity>>(
-                    status: APIStatus.Code.Error,
+                return new APIResponse<List<TResult>>(
+                    status: APIDefinition.Code.Error,
                     data: default,
-                    errorMessage: $"エンティティリストへの変換に失敗しました: {ex.Message}"
+                    errorMessage: $"結果リストへの変換に失敗しました: {ex.Message}"
                 );
             }
         }
@@ -92,7 +89,7 @@ namespace JABARACdesign.Base.Infrastructure.Extension
             this IAPIResponse<TSource> response,
             Func<TSource, TResult> mapper)
         {
-            if (response.Status != APIStatus.Code.Success)
+            if (response.Status != APIDefinition.Code.Success)
             {
                 return new APIResponse<TResult>(
                     status: response.Status,
@@ -104,7 +101,7 @@ namespace JABARACdesign.Base.Infrastructure.Extension
             try
             {
                 return new APIResponse<TResult>(
-                    status: APIStatus.Code.Success,
+                    status: APIDefinition.Code.Success,
                     data: mapper(arg: response.Data),
                     errorMessage: null
                 );
@@ -112,7 +109,7 @@ namespace JABARACdesign.Base.Infrastructure.Extension
             catch (Exception ex)
             {
                 return new APIResponse<TResult>(
-                    status: APIStatus.Code.Error,
+                    status: APIDefinition.Code.Error,
                     data: default,
                     errorMessage: $"データの変換に失敗しました: {ex.Message}"
                 );

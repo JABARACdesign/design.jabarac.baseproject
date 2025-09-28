@@ -1,4 +1,4 @@
-﻿using JABARACdesign.Base.Domain.Entity.API;
+﻿using JABARACdesign.Base.Domain.Definition;
 
 namespace JABARACdesign.Base.Application.Interface
 {
@@ -8,7 +8,7 @@ namespace JABARACdesign.Base.Application.Interface
     /// <typeparam name="TData">データの型</typeparam>
     public interface IAPIResponse<out TData>
     {
-        APIStatus.Code Status { get; }
+        APIDefinition.Code Status { get; }
         
         TData Data { get; }
         
@@ -20,7 +20,7 @@ namespace JABARACdesign.Base.Application.Interface
     /// </summary>
     public interface IAPIResponse
     {
-        APIStatus.Code Status { get; }
+        APIDefinition.Code Status { get; }
         
         string ErrorMessage { get; }
     }

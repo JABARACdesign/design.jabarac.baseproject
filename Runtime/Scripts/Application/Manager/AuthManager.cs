@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using JABARACdesign.Base.Application.Interface;
-using JABARACdesign.Base.Domain.Entity.API;
+using JABARACdesign.Base.Domain.Definition;
 using JABARACdesign.Base.Domain.Entity.Helper;
 using VContainer;
 
@@ -45,7 +45,7 @@ namespace JABARACdesign.Base.Application.Manager
             // 匿名アカウントを作成
             var response = await _authRepository.CreateAnonymousUserAsync(cancellationToken: cancellationToken);
             
-            if (response.Status == APIStatus.Code.Success)
+            if (response.Status == APIDefinition.Code.Success)
             {
                 UserId = response.Data.UserId;
                 UserName = response.Data.DisplayName;
@@ -82,7 +82,7 @@ namespace JABARACdesign.Base.Application.Manager
 
             // メールアドレスがすでに存在するか確認
             var emailExistsResponse = await _authRepository.GetIsEmailExistsAsync(email: email, cancellationToken: cancellationToken);
-            if (emailExistsResponse.Status == APIStatus.Code.Success && emailExistsResponse.Data.IsExists)
+            if (emailExistsResponse.Status == APIDefinition.Code.Success && emailExistsResponse.Data.IsExists)
             {
                 LogHelper.Error(message: "このメールアドレスは既に使用されています");
                 return false;
@@ -92,7 +92,7 @@ namespace JABARACdesign.Base.Application.Manager
             var response = await _authRepository.UpgradeAnonymousAccountAsync(
                 email: email, password: password, displayName: displayName, cancellationToken: cancellationToken);
             
-            if (response.Status == APIStatus.Code.Success)
+            if (response.Status == APIDefinition.Code.Success)
             {
                 LogHelper.Info(message: $"アカウントを正常にアップグレードしました: {email}");
                 return true;
@@ -111,7 +111,7 @@ namespace JABARACdesign.Base.Application.Manager
         public bool GetIsLoggedIn()
         {
             var result = _authRepository.GetIsLoggedIn();
-            if (result.Status != APIStatus.Code.Success)
+            if (result.Status != APIDefinition.Code.Success)
             {
                 LogHelper.Warning(message: $"ログイン状態を取得できませんでした : {result.Status}");
                 return false;
