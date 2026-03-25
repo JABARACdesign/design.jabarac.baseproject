@@ -10,10 +10,12 @@ namespace JABARACdesign.Base.Application.Manager
     /// </summary>
     /// <typeparam name="TDomainData">データの型</typeparam>
     /// <typeparam name="TKey">キーの型</typeparam>
-    public class DomainDataStore<TDomainData, TKey>
+    public class DomainDataStore<TDomainData, TKey> : IDomainDataStore<TDomainData>
         where TDomainData : IDomainData
     {
         private readonly Dictionary<TKey, TDomainData> _dataMap = new();
+        
+        private readonly Func<TDomainData, TKey> _getKeyFunc;
         
         /// <summary>
         /// コンストラクタ
@@ -22,19 +24,19 @@ namespace JABARACdesign.Base.Application.Manager
         /// <param name="getKeyFunc">キーを取得する関数</param>
         public DomainDataStore(List<TDomainData> domainDataList, Func<TDomainData, TKey> getKeyFunc)
         {
-            CreateDomainDataMap(domainDataList: domainDataList, getKeyFunc: getKeyFunc);
+            _getKeyFunc = getKeyFunc;
+            CreateDomainDataMap(domainDataList: domainDataList);
         }
         
         /// <summary>
         /// ドメインデータのマップを作成する
         /// </summary>
         /// <param name="domainDataList">ドメインデータのリスト</param>
-        /// <param name="getKeyFunc">キーを取得する関数</param>
-        private void CreateDomainDataMap(List<TDomainData> domainDataList, Func<TDomainData, TKey> getKeyFunc)
+        private void CreateDomainDataMap(List<TDomainData> domainDataList)
         {
             foreach (var data in domainDataList)
             {
-                _dataMap.TryAdd(key: getKeyFunc(arg: data), value: data);
+                _dataMap.TryAdd(key: _getKeyFunc(arg: data), value: data);
             }
         }
         
@@ -67,7 +69,7 @@ namespace JABARACdesign.Base.Application.Manager
         /// <param name="data">追加するデータ</param>
         public void Add(TDomainData data)
         {
-            _dataMap.TryAdd(key: default, value: data);
+            _dataMap.TryAdd(key: _getKeyFunc(arg: data), value: data);
         }
         
         /// <summary>

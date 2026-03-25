@@ -86,7 +86,7 @@ namespace JABARACdesign.Base.Application.Manager
                 return default;
             }
             
-            var dataStore = (DomainDataStore<TDomainData, string>)store;
+            var dataStore = (IDomainDataStore<TDomainData>)store;
             return dataStore.GetAll();
         }
         
