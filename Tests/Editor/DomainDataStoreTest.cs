@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using JABARACdesign.Base.Application.Manager;
 using JABARACdesign.Base.Domain.Entity;
 using NUnit.Framework;

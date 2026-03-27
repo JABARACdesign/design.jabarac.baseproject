@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using JABARACdesign.Base.Domain.Entity;
 
 namespace JABARACdesign.Base.Application.Manager

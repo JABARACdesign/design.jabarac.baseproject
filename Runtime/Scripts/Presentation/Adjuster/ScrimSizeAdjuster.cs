@@ -1,4 +1,4 @@
-﻿using JABARACdesign.Base.Presentation.Extension;
+using JABARACdesign.Base.Presentation.Extension;
 using JABARACdesign.Base.Presentation.Manager;
 using UnityEngine;
 using VContainer;
