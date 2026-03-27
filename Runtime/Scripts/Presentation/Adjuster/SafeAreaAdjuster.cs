@@ -1,4 +1,4 @@
-﻿using JABARACdesign.Base.Domain.Entity.Helper;
+using JABARACdesign.Base.Domain.Entity.Helper;
 using JABARACdesign.Base.Presentation.Manager;
 using UnityEngine;
 using VContainer;

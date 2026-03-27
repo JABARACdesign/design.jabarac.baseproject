@@ -1,4 +1,4 @@
-﻿namespace JABARACdesign.Base.Domain.Localization
+namespace JABARACdesign.Base.Domain.Localization
 {
     /// <summary>
     /// サポートする言語コードの定義。

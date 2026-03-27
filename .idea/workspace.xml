@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dff423d9-46d2-44dd-9e18-a9332c4eb00d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Runtime/Scripts/Application/Localization/ILocalizationService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Runtime/Scripts/Application/Localization/ILocalizationTableLoader.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Runtime/Scripts/Application/Manager/IDomainDataStore.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Runtime/Scripts/Domain/Localization/LanguageCode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Localization/AddressablesLocalizationTableLoader.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Runtime/Scripts/Infrastructure/Localization/LocalizationService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tests/Editor/DomainDataStoreTest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tests/Editor/JABARACdesign.Base.Tests.Editor.asmdef" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tests/Editor/LocalizationServiceTest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tests/Editor/Mock/MockMstDataManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tests/Editor/Utility/TestAPIResponseHelper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/baseproject-upgrade.patch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Runtime/Scripts/Application/Manager/DomainDataManagerBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/Scripts/Application/Manager/DomainDataManagerBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Runtime/Scripts/Application/Manager/DomainDataStore.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/Scripts/Application/Manager/DomainDataStore.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +38,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1774451184281</updated>
-      <workItem from="1774451185494" duration="2277000" />
+      <workItem from="1774451185494" duration="2982000" />
     </task>
     <servers />
   </component>

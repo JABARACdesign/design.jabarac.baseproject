@@ -1,4 +1,4 @@
-﻿using JABARACdesign.Base.Application.Interface;
+using JABARACdesign.Base.Application.Interface;
 using JABARACdesign.Base.Domain.Definition;
 using JABARACdesign.Base.Infrastructure.API;
 

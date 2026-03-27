@@ -1,4 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using JABARACdesign.Base.Presentation.Extension;
 using R3;
 using UnityEngine;

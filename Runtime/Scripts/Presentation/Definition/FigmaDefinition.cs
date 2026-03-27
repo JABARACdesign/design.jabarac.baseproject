@@ -1,4 +1,4 @@
-﻿namespace JABARACdesign.Base.Presentation.Definition
+namespace JABARACdesign.Base.Presentation.Definition
 {
     /// <summary>
     /// Figmaの定義
